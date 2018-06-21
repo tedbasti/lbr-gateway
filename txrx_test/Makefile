@@ -1,7 +1,7 @@
 SHARED_OBJECTS := usart.o receiver.o transmitter.o timer.o
 HEADERS := $(wildcard *.h)
 HEX := transmitter.hex receiver.hex
-GPP_FLAGS := -I. -O2 -DF_CPU=16000000UL -mmcu=atmega328p
+GPP_FLAGS := -std=c++11 -I. -O2 -DF_CPU=16000000UL -mmcu=atmega328p
 
 all: $(HEX)
 
