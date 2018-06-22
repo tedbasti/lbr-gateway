@@ -105,6 +105,7 @@ class ByteDecoder {
 public:
 	ByteDecoder() {
 		tick = true;
+		lastBit=false;
 	}
 
 	bool hasFullByte() const {
