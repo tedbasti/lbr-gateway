@@ -2,12 +2,12 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-#include "usart.h"
-#include "timer.h"
-#include "timerconf.h"
+#include "usart/usart.h"
+#include "util/timer.h"
+#include "util/timerconf.h"
 
-#include "receiver.h"
-#include "transmitter.h"
+#include "radio/receiver.h"
+#include "radio/transmitter.h"
 
 // timer0 (8bit) overflow interrupt
 ISR (TIMER0_OVF_vect) {

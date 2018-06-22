@@ -1,28 +1,21 @@
-SHARED_OBJECTS := usart.o receiver.o transmitter.o timer.o
-HEADERS := $(wildcard *.h)
+SUBDIRS := usart radio util
+export WORKING_DIR ?= $(PWD)/..
+export BUILD_DIR ?= $(WORKING_DIR)/build
 HEX := transmitter.hex receiver.hex
-GPP_FLAGS := -std=c++11 -I. -O2 -DF_CPU=16000000UL -mmcu=atmega328p
 
-all: $(HEX)
+all: subdirs $(HEX)
 
 %.hex : %.bin
 	avr-objcopy -O ihex -R .eeprom $*.bin $*.hex
 
-transmitter.bin : libshared.a main.cpp
-	avr-g++ -DTRANSMITTER $(GPP_FLAGS) main.cpp libshared.a -o transmitter.bin
+transmitter.bin : $(SUBDIRS) main.cpp
+	avr-g++ -DTRANSMITTER $(GPP_FLAGS) main.cpp $(BUILD_DIR)/usart.a $(BUILD_DIR)/radio.a $(BUILD_DIR)/util.a -o transmitter.bin
 
-receiver.bin : libshared.a main.cpp
-	avr-g++ -DRECEIVER $(GPP_FLAGS) main.cpp libshared.a -o receiver.bin
+receiver.bin : $(SUBDIRS) main.cpp
+	avr-g++ -DRECEIVER $(GPP_FLAGS) main.cpp $(BUILD_DIR)/usart.a $(BUILD_DIR)/radio.a $(BUILD_DIR)/util.a  -o receiver.bin
 
-libshared.a: $(SHARED_OBJECTS)
-	avr-ar crf libshared.a $(SHARED_OBJECTS)
-
-%.o : %.c
-	avr-gcc $(GPP_FLAGS) -c -o $*.o $*.c
-
-%.o : %.cpp $(HEADERS)
-	avr-g++ $(GPP_FLAGS) -c -o $*.o $*.cpp
+include $(WORKING_DIR)/subdirs.mk
 
 .PHONY : clean
-clean :
-	rm -f *.bin $(HEX) main.o libshared.a $(SHARED_OBJECTS)
+clean : cleansubdirs
+	rm -f *.bin $(HEX) main.o

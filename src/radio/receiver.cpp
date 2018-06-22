@@ -5,9 +5,9 @@
 #include "receiver.h"
 #include "framereceivebuffer.h"
 #include "checksum.h"
-#include "util.h"
+#include "../util/util.h"
 
-#include "usart.h"
+#include "../usart/usart.h"
 
 namespace Receiver {
 

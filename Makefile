@@ -1,13 +1,19 @@
-SUBDIRS = src
+export WORKING_DIR := $(PWD)
+export BUILD_DIR := $(WORKING_DIR)/build
 
-all: subdirs
+SUBDIRS := src
+
+all: createbuild subdirs
+
+include $(WORKING_DIR)/subdirs.mk
 	
-clean: 
-	for dir in $(SUBDIRS); do \
-		$(MAKE) clean -C $$dir; \
-	done
+clean: cleansubdirs
+	rm -rf $(BUILD_DIR)
+	
+createbuild:
+	mkdir -p $(BUILD_DIR)
 
-.PHONY: clean subdirs $(SUBDIRS)
+.PHONY: createbuild clean
 
 subdirs: $(SUBDIRS)
 
