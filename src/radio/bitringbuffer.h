@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <assert.h>
-#include <string.h>
 
 /* The bitringbuffer is a simple ring buffer structure
  * for bits.
@@ -72,15 +71,6 @@ private:
 		outMask = 1 << bitIdx;
 		
 		return *byte;
-	}
-
-	/* Generates a mask with the lower 'bitCount' bits set */
-	uint8_t mkMask(uint8_t bitCount) {
-		uint8_t mask = 0;
-		for (uint8_t i = 0; i < bitCount; ++i) {
-			/* Set LSB and shift to left */
-			mask = (mask << 1) | 1;
-		}
 	}
 
 	uint8_t data[Size];
