@@ -10,12 +10,61 @@
 #define BAUD 57600					// Baud rate
 #define UBRR int(FOSC/(16*BAUD)-0.5)
 
-
 static USART::callbackFunc _cbFunc;
 
+/*
+ * This function has two states:
+ * - Initialisation State (0)
+ * - Receive State (Direct connection) (1)
+ * - Receive State (Multi Connection) (2)
+ *
+ * Initialisation State:
+ * Within the Initialisation State the
+ * the logic expects special data:
+ * Byte[0]: 0xFF: Just for check that
+ * 			it's really a initalisation
+ * Byte[1]: TransmitterID: The TransmitterID
+ * Byte[2]: ReceiverID: The Receiver
+ * Byte[3]: Bytes to send:
+ * 			From 0x01 to 0x05
+ * Byte[4]: The Protocol Type:
+ * 		Direct Connection(0x01)
+ * 		or Multi Connection(0x02).
+ *
+ * 		Direct Connection:
+ * 			Receiver is fix.
+ *
+ * 		Multi Connection:
+ * 			Receiver will be the first byte within the future
+ */
+
+#define STATE_INITIAL 0
+#define STATE_INITIAL_SIZE 5
+#define STATE_DIRECT_CONNECTION 1
+#define STATE_DIRECT_CONNECTION_SIZE 5
+#define STATE_MULTI_CONNECTION 2
+#define STATE_MULTI_CONNECTION_SIZE 5
 
 ISR(USART_RX_vect) {
+	//Read the Data
 	unsigned char data = UDR0;
+	/*
+	 * - buffer is there to hold more than one char/uint8_t
+	 * - bufferPos holds the current pos, where to write
+	 * - state is the current state.
+	 * For state descriptions look above.
+	 */
+	uint8_t buffer[6];
+	uint8_t bufferPos = 0;
+	uint8_t state = STATE_INITIAL;
+	switch (state) {
+	case STATE_INITIAL:
+		//TODO: Set some configuration information
+	break;
+	case STATE_DIRECT_CONNECTION:
+		//TODO: Receive data and send to layer2/layer3
+	}
+
 	_cbFunc(data);
 }
 
