@@ -2,8 +2,10 @@
 #include "../layer2/layer2.h"
 #include "../layer1/layer1.h"
 #include "frame.h"
+#include "checksum.h"
 
 namespace LAYER2 {
+	typedef XorChecksum8 ChecksumAlgo;
 	const uint8_t startSeq = 0xE3; // 11100011
 	const uint8_t endSeq = 0xFF; // 11111111
 
@@ -65,13 +67,12 @@ namespace LAYER2 {
 		}
 	}
 
-	template <typename ChecksumAlgo>
 	void transmitData(uint8_t receiverID, char* data, const uint8_t len){
 		ChecksumAlgo ckSum;
 		ckSum.addByte(len);
 		ckSum.addByte(receiverID);
 		ckSum.addByte(0);
-		ckSum.addBytes(data, len);
+		ckSum.addBytes((const unsigned char*) data, len);
 		/* Send warmup bytes; these are apparently necessary
 		 * for a reliable transmission */
 		encode(0xF0);
