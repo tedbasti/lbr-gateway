@@ -3,7 +3,7 @@
  * usart_new.h
  *
  *  Created on: Jun 23, 2018
- *      Author: rambonator
+ *      Author: ramon-pio
  */
 
 /* From console:
