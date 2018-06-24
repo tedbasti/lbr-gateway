@@ -11,13 +11,14 @@
 #define UBRR FOSC/(16*BAUD)-1
 
 
+static USART::callbackFunc _cbFunc;
+
+
 ISR(USART_RX_vect) {
 	unsigned char data = UDR0;
 	_cbFunc(data);
 }
 
-
-static USART::callbackFunc _cbFunc;
 
 namespace USART {
 
