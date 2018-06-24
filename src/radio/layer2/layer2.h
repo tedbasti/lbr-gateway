@@ -26,7 +26,7 @@ namespace LAYER2 {
 	 * - Check if the checksum is right
 	 * - Check if the receiver is the right one (otherwise drop)
 	 */
-	void rcvBit(bool bit);
+	void receiveBit(bool bit);
 
 	/**
 	 * This function is called by the higher layer (layer3
@@ -37,7 +37,7 @@ namespace LAYER2 {
 	 * - Build a frame with transmitterId and receiverId
 	 * (- Send start and end sequence)
 	 */
-	void sendData(uint8_t rcv, char* data, uint8_t len);
+	void transmitData(uint8_t rcv, char* data, uint8_t len);
 }
 
 
