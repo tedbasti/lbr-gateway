@@ -9,6 +9,11 @@
 #define SRC_RADIO_LAYER2_LAYER2_H_
 
 
+namespace LAYER2 {
+
+
+}
+
 
 
 
