@@ -6,6 +6,7 @@
  */
 
 #include "../layer1/layer1.h"
+#include "../layer2/layer2.h"
 
 #include "../bitringbuffer.h"
 #include "../checksum.h"
@@ -22,13 +23,18 @@ void init() {
 
 }
 
-void onTimeSlice() {
+void onTimeTransmit() {
 	if (ringBuf.isEmpty()) {
 		return;
 	}
 
 	bool outBit = ringBuf.popBit();
 	SET_P(DATA_OUT_PORT, DATA_OUT_PIN, outBit);
+}
+
+void onTimeReceive() {
+	uint8_t dataBit = DATA_IN ? 1 : 0;
+	LAYER2::rcvBit(dataBit);
 }
 
 }

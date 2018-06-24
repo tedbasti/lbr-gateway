@@ -15,6 +15,7 @@ namespace LAYER1 {
 /* Port and pin connected to transmitter module DATA */
 #define DATA_OUT_PORT PORTD
 #define DATA_OUT_PIN PD7
+#define DATA_IN (PIND & (1<<PD4))
 
 void init();
 
