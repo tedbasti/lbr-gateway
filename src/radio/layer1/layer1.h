@@ -21,7 +21,9 @@ void init();
 
 void sendBit(bool bit);
 
-void onTimeSlice();
+void onTimeTransmit();
+
+void onTimeReceive();
 
 }
 #endif /* SRC_RADIO_LAYER1_LAYER1_H_ */
