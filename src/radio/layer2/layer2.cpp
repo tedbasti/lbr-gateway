@@ -13,38 +13,38 @@ namespace LAYER2 {
 		//TODO: implement
 	}
 
-	static void encode(const char *data) {
-		for(const char *p = data; *p; ++p) {
-			manchester(*p);
+	inline static void transmitToLayer1(bool bit) {
+			LAYER1::sendBit(bit);
 		}
-	}
 
 	static void manchester(unsigned char data) {
-		// 0b10000000
-		unsigned char bitmask = 128;
+			// 0b10000000
+			unsigned char bitmask = 128;
 
-		// Get each bit from left to right
-		while(bitmask != 0) {
-			// Get bit
-			bool bit = data & bitmask;
+			// Get each bit from left to right
+			while(bitmask != 0) {
+				// Get bit
+				bool bit = data & bitmask;
 
-			// Push code word to layer 1
-			if(bit) {
-				transmitToLayer1(0);
-				transmitToLayer1(1);
+				// Push code word to layer 1
+				if(bit) {
+					transmitToLayer1(0);
+					transmitToLayer1(1);
+				}
+				else {
+					transmitToLayer1(1);
+					transmitToLayer1(0);
+				}
+
+				// Shift bitmask to next bit
+				bitmask = (bitmask >> 1);
 			}
-			else {
-				transmitToLayer1(1);
-				transmitToLayer1(0);
-			}
-
-			// Shift bitmask to next bit
-			bitmask = (bitmask >> 1);
 		}
-	}
 
-	inline static void transmitToLayer1(bool bit) {
-		Layer1::sendBit(bit);
+	static void encode(const char *data) {
+		for(const char *p = data; *p; ++p) {
+			LAYER2::manchester(*p);
+		}
 	}
 
 }
