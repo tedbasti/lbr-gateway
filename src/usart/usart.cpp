@@ -8,7 +8,7 @@
 
 #define FOSC 16000000			// System clock Speed
 #define BAUD 57600				// Baud rate
-#define UBRR FOSC/(16*BAUD)-0.5
+#define UBRR FOSC/(16*BAUD)-1
 
 
 ISR(USART_RX_vect) {
@@ -23,8 +23,8 @@ namespace USART {
 
 	void init(callbackFunc function) {
 		// Set baud rate
-		UBRR0H = (unsigned char) (UBBR >> 8);
-		UBRR0L = (unsigned char) UBBR;
+		UBRR0H = (unsigned char) (UBRR >> 8);
+		UBRR0L = (unsigned char) UBRR;
 
 		// Enable receiver and transmitter
 		UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
@@ -46,7 +46,7 @@ namespace USART {
 	}
 
 	void transmit(const char *data) {
-		for(const char *p = data; *p, ++p) {
+		for(const char *p = data; *p; ++p) {
 			transmit(*p);
 		}
 	}
@@ -59,7 +59,7 @@ namespace USART {
 
 	void flush() {
 		unsigned char dummy;
-		while (UCSR0A & (1 << RXC)) {
+		while (UCSR0A & (1 << RXC0)) {
 			dummy = UDR0;
 		}
 	}

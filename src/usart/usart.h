@@ -25,6 +25,9 @@
 #define SRC_USART_USART_H_
 
 
+#include <stdint.h>
+
+
 /*
  * Provides functions for transmitting and receiving data via USART.
  * When USART gets initialized, the USART baud rate will be set and
