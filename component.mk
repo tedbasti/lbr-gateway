@@ -6,7 +6,7 @@ $(SHARED_LIB): $(SHARED_OBJECTS)
 	avr-ar crf $(SHARED_LIB) $(SHARED_OBJECTS)
 
 clean: cleansubdirs
-	rm $(SHARED_OBJECTS)
-	rm $(SHARED_LIB)
+	rm -f $(SHARED_OBJECTS)
+	rm -f $(SHARED_LIB)
 	
 .PHONY: $(SHARED_LIB) clean
