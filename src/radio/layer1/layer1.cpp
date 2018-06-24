@@ -34,7 +34,7 @@ void onTimeTransmit() {
 
 void onTimeReceive() {
 	uint8_t dataBit = DATA_IN ? 1 : 0;
-	LAYER2::rcvBit(dataBit);
+	LAYER2::receiveBit(dataBit);
 }
 
 }
