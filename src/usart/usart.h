@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef SRC_USART_USART_NEW_H_
-#define SRC_USART_USART_NEW_H_
+#ifndef SRC_USART_USART_H_
+#define SRC_USART_USART_H_
 
 
 /*
@@ -62,4 +62,4 @@ namespace USART {
 }
 
 
-#endif /* SRC_USART_USART_NEW_H_ */
+#endif /* SRC_USART_USART_H_ */
