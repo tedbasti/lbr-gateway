@@ -15,7 +15,7 @@
 namespace LAYER1 {
 static BitRingBuffer<1024> ringBuf;
 
-void sendBit(bool bit) {
+inline void sendBit(bool bit) {
 	ringBuf.pushBit(bit);
 }
 
