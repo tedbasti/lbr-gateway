@@ -6,6 +6,21 @@
  *      Author: rambonator
  */
 
+/* From console:
+ *
+ * Setup USART:
+ * stty -F /dev/<arduino> cs8 9600 ignbrk -brkint -icrnl -imaxbel \
+ * -opost -onlcr -isig -icanon -iexten -echo -echoe -echok -echoctl \
+ * -echoke noflsh -ixon -crtscts
+ *
+ * Reading:
+ * cat < /dev/<arduino>
+ *
+ * Write char 'c':
+ * echo -n "c" > /dev/<arduino>
+ *
+ */
+
 #ifndef SRC_USART_USART_NEW_H_
 #define SRC_USART_USART_NEW_H_
 
