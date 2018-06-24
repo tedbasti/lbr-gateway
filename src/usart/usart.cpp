@@ -6,9 +6,9 @@
 #include <avr/interrupt.h>
 
 
-#define FOSC 16000000			// System clock Speed
-#define BAUD 57600				// Baud rate
-#define UBRR FOSC/(16*BAUD)-1
+#define FOSC 16000000				// System clock Speed
+#define BAUD 57600					// Baud rate
+#define UBRR int(FOSC/(16*BAUD)-0.5)
 
 
 static USART::callbackFunc _cbFunc;
