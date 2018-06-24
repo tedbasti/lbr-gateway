@@ -5,7 +5,7 @@ namespace LAYER2 {
 		//TODO: implement
 	}
 
-	void sendFrame(uint8_t rcv,char* data, uint8_t len) {
+	void sendData(uint8_t rcv, char* data, uint8_t len){
 		//TODO: implement
 	}
 }
