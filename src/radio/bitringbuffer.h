@@ -73,7 +73,7 @@ private:
 		return *byte;
 	}
 
-	uint8_t data[Size];
+	uint8_t data[Size/8];
 	BufferSize readIdx;
 	BufferSize writeIdx;
 	BufferSize space;
