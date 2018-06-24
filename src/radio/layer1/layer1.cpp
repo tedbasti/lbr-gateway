@@ -18,7 +18,7 @@ void sendBit(bool bit) {
 	ringBuf.pushBit(bit);
 }
 
-void init_time() {
+void init() {
 
 }
 

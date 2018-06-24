@@ -16,7 +16,7 @@ namespace LAYER1 {
 #define DATA_OUT_PORT PORTD
 #define DATA_OUT_PIN PD7
 
-void init_time();
+void init();
 
 void sendBit(bool bit);
 
