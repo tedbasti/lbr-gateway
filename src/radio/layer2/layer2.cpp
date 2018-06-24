@@ -17,12 +17,7 @@ namespace LAYER2 {
 		LAYER1::sendBit(bit);
 	}
 
-	/*
-	 * Sends raw data to layer1.
-	 * Raw means no channel encoding.
-	 * Important for start/endsequence.
-	 */
-	static void pushByteToLayer1(unsigned char data) {
+	inline static void pushByteToLayer1(unsigned char data) {
 		// 0b10000000
 		unsigned char bitmask = 128;
 		// Get each bit from left to right
@@ -57,14 +52,8 @@ namespace LAYER2 {
 			}
 		}
 
-	static void inline encode(const char data) {
+	static void inline pushByteToLayer1_Encoded(const char data) {
 		LAYER2::manchester(data);
-	}
-
-	static void encode(const char *data) {
-		for(const char *p = data; *p; ++p) {
-			encode(*p);
-		}
 	}
 
 	void transmitData(uint8_t receiverID, char* data, const uint8_t len){
@@ -75,20 +64,20 @@ namespace LAYER2 {
 		ckSum.addBytes((const unsigned char*) data, len);
 		/* Send warmup bytes; these are apparently necessary
 		 * for a reliable transmission */
-		encode(0xF0);
+		pushByteToLayer1_Encoded(0xF0);
 		//Send start sequence
 		pushByteToLayer1(startSeq);
 		//Send the len
-		encode(len);
+		pushByteToLayer1_Encoded(len);
 		//Send the Receiver
-		encode(receiverID);
+		pushByteToLayer1_Encoded(receiverID);
 		//Send the transmitter
-		encode((char)0);
+		pushByteToLayer1_Encoded((char)0);
 		//Send the data
-		for(int i=0; i<len; i++) {
-			encode(data[i]);
+		for(unint8_t i=0; i<len; i++) {
+			pushByteToLayer1_Encoded(data[i]);
 		}
-		encode(ckSum.getDigest());
+		pushByteToLayer1_Encoded(ckSum.getDigest());
 		//Send end sequence
 		pushByteToLayer1(endSeq);
 	}
