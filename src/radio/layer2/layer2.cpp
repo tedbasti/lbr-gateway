@@ -13,7 +13,7 @@ namespace LAYER2 {
 		//TODO: implement
 	}
 
-	inline static void transmitToLayer1(bool bit) {
+	inline static void pushBitToLayer1(bool bit) {
 		LAYER1::sendBit(bit);
 	}
 
@@ -22,14 +22,14 @@ namespace LAYER2 {
 	 * Raw means no channel encoding.
 	 * Important for start/endsequence.
 	 */
-	static void pushRaw(unsigned char data) {
+	static void pushByteToLayer1(unsigned char data) {
 		// 0b10000000
 		unsigned char bitmask = 128;
 		// Get each bit from left to right
 		while (bitmask != 0) {
 			// Get bit
 			bool bit = data & bitmask;
-			transmitToLayer1(bit);
+			pushBitToLayer1(bit);
 		}
 	}
 
@@ -44,12 +44,12 @@ namespace LAYER2 {
 
 				// Push code word to layer 1
 				if(bit) {
-					transmitToLayer1(0);
-					transmitToLayer1(1);
+					pushBitToLayer1(0);
+					pushBitToLayer1(1);
 				}
 				else {
-					transmitToLayer1(1);
-					transmitToLayer1(0);
+					pushBitToLayer1(1);
+					pushBitToLayer1(0);
 				}
 
 				// Shift bitmask to next bit
@@ -77,7 +77,7 @@ namespace LAYER2 {
 		 * for a reliable transmission */
 		encode(0xF0);
 		//Send start sequence
-		pushRaw(startSeq);
+		pushByteToLayer1(startSeq);
 		//Send the len
 		encode(len);
 		//Send the Receiver
@@ -90,6 +90,6 @@ namespace LAYER2 {
 		}
 		encode(ckSum.getDigest());
 		//Send end sequence
-		pushRaw(endSeq);
+		pushByteToLayer1(endSeq);
 	}
 }
