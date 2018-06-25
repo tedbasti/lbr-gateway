@@ -74,7 +74,7 @@ namespace LAYER2 {
 		//Send the transmitter
 		pushByteToLayer1_Encoded((char)0);
 		//Send the data
-		for(unint8_t i=0; i<len; i++) {
+		for(uint8_t i=0; i<len; i++) {
 			pushByteToLayer1_Encoded(data[i]);
 		}
 		pushByteToLayer1_Encoded(ckSum.getDigest());
