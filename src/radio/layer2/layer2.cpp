@@ -4,6 +4,7 @@
 #include "frame.h"
 #include "checksum.h"
 #include "bytebuffer.h"
+#include "../../usart/usart.h"
 
 namespace LAYER2 {
 	typedef XorChecksum8 ChecksumAlgo;
@@ -109,10 +110,18 @@ namespace LAYER2 {
 					//Generate a frame
 					Frame f;
 					buffer.rawValue((uint8_t *)&f);
+					ChecksumAlgo checkSum;
+					checkSum.addByte(f.receiver);
+					checkSum.addByte(f.sender);
+					checkSum.addByte(f.payloadLen);
+					checkSum.addBytes(f.payload, f.payloadLen);
 					/*
-					 * TODO: Calculate the checksum for the
-					 * frame and compare it to the received checksum.
+					 * TODO: At the moment sender is always 0.
+					 * Adapt to some new cases.
 					 */
+					if (checkSum.isValid() && f.sender == 0) {
+						USART::transmit(f.payload, f.payloadLen);
+					}
 				}
 				currentState = STATE_WAITING;
 			}
