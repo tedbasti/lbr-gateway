@@ -15,8 +15,8 @@ static USART::callbackFunc _cbFunc;
 
 
 ISR(USART_RX_vect) {
-	unsigned char data = UDR0;
-	_cbFunc(data);
+	uint8_t data = UDR0;
+	_cbFunc(1, &data, 1);
 }
 
 

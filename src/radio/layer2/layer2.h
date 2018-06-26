@@ -37,7 +37,7 @@ namespace LAYER2 {
 	 * - Build a frame with transmitterId and receiverId
 	 * (- Send start and end sequence)
 	 */
-	void transmitData(uint8_t rcv, char* data, uint8_t len);
+	void transmitData(uint8_t rcv, uint8_t* data, uint8_t len);
 }
 
 

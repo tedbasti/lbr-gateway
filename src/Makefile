@@ -1,5 +1,5 @@
-SUBDIRS := usart radio util
-SUBLIBS := usart/usart.a radio/radio.a util/util.a
+SUBDIRS := usart util radio
+SUBLIBS := usart/usart.a util/util.a radio/radio.a
 export WORKING_DIR ?= $(PWD)/..
 HEX := lbrgateway.hex
 

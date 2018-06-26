@@ -1,5 +1,5 @@
 
-#include "../layer2/layer2.h"
+#include "layer2.h"
 #include "../layer1/layer1.h"
 #include "frame.h"
 #include "checksum.h"
@@ -175,7 +175,7 @@ namespace LAYER2 {
 		encodeManchester(data);
 	}
 
-	void transmitData(uint8_t receiverID, char* data, const uint8_t len){
+	void transmitData(uint8_t receiverID, uint8_t* data, const uint8_t len){
 		ChecksumAlgo ckSum;
 		ckSum.addByte(receiverID);
 		ckSum.addByte(0);	// TODO Sender ID

@@ -35,7 +35,8 @@
  */
 namespace USART {
 
-	typedef void (*callbackFunc)(unsigned char data);
+	typedef void (*callbackFunc)(uint8_t receiver,
+			uint8_t* data, uint8_t len);
 
 	/*
 	 * Sets the USART baud rate, enables transmitting and receiving via
