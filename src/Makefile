@@ -1,18 +1,15 @@
 SUBDIRS := usart radio util
 SUBLIBS := usart/usart.a radio/radio.a util/util.a
 export WORKING_DIR ?= $(PWD)/..
-HEX := transmitter.hex receiver.hex
+HEX := lbrgateway.hex
 
 all: subdirs $(HEX)
 
 %.hex : %.bin
 	avr-objcopy -O ihex -R .eeprom $*.bin $*.hex
-
-transmitter.bin : $(SUBDIRS) main.cpp
-	avr-g++ -DTRANSMITTER $(GPP_FLAGS) main.cpp $(SUBLIBS) -o transmitter.bin
-
-receiver.bin : $(SUBDIRS) main.cpp
-	avr-g++ -DRECEIVER $(GPP_FLAGS) main.cpp $(SUBLIBS) -o receiver.bin
+	
+lbrgateway.bin : $(SUBDIRS) main.cpp
+	avr-g++ $(GPP_FLAGS) main.cpp $(SUBLIBS) -o lbrgateway.bin
 
 include $(WORKING_DIR)/subdirs.mk
 

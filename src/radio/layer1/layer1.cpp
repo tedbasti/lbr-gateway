@@ -9,7 +9,6 @@
 #include "../layer2/layer2.h"
 
 #include "../bitringbuffer.h"
-#include "../checksum.h"
 #include "../../util/util.h"
 
 namespace LAYER1 {
