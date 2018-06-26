@@ -177,9 +177,9 @@ namespace LAYER2 {
 
 	void transmitData(uint8_t receiverID, char* data, const uint8_t len){
 		ChecksumAlgo ckSum;
-		ckSum.addByte(len);
 		ckSum.addByte(receiverID);
-		ckSum.addByte(0);
+		ckSum.addByte(0);	// TODO Sender ID
+		ckSum.addByte(len);
 		ckSum.addBytes((const unsigned char*) data, len);
 		/* Send warmup bytes; these are apparently necessary
 		 * for a reliable transmission */
