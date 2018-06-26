@@ -32,7 +32,7 @@ namespace LAYER2 {
 		 */
 		static bool lastBit = 0;
 
-		//When its a odd bit
+		//When its a odd bit position
 		if (bitsReceived%2) {
 			/*
 			 * Manchester is always different!
@@ -40,17 +40,18 @@ namespace LAYER2 {
 			if (bit == lastBit) {
 				return false;
 			}
+			//The current value of byte will shift to the left
+			byte=byte<<1;
+			/*
+			 * We now that its a valid manchester code,
+			 * and the second one
+			 * (lastBit first received, bit afterwards)
+			 * is always the value.
+			 * So we just get the new value with byte|bit.
+			 */
+			byte=byte|bit;
 		}
-		//The current value of byte will shift to the left
-		byte=byte<<1;
-		/*
-		 * We now that its a valid manchester code,
-		 * and the second one
-		 * (lastBit first received, bit afterwards)
-		 * is always the value.
-		 * So we just get the new value with byte|bit.
-		 */
-		byte=byte|bit;
+
 		//Count bitsReceived, AFTER check if odd
 		bitsReceived++;
 		//16 bits are one byte for manchester (16/2 = 8bits)
