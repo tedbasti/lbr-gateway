@@ -20,7 +20,7 @@ namespace LAYER2 {
 	/**
 	 * This is for the receive logic
 	 */
-	static bool inline receiveManchesterDecode(bool bit) {
+	static bool inline decodeManchester(bool bit) {
 		/*
 		 * The byte will be stored within the pushByte,
 		 * when 8 bits are done.
@@ -73,7 +73,7 @@ namespace LAYER2 {
 	 * builds up a frame from the data.
 	 */
 	bool inline receiveBitDecode(bool bit) {
-		return receiveManchesterDecode(bit);
+		return decodeManchester(bit);
 	}
 
 	/*
@@ -147,7 +147,7 @@ namespace LAYER2 {
 		}
 	}
 
-	static void manchester(unsigned char data) {
+	static void encodeManchester(unsigned char data) {
 			// 0b10000000
 			unsigned char bitmask = 128;
 
@@ -172,7 +172,7 @@ namespace LAYER2 {
 		}
 
 	static void inline pushByteToLayer1_Encoded(const char data) {
-		LAYER2::manchester(data);
+		encodeManchester(data);
 	}
 
 	void transmitData(uint8_t receiverID, char* data, const uint8_t len){
