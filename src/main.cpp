@@ -16,7 +16,7 @@ ISR (TIMER0_OVF_vect) {
 // timer1 (16bit) compare match interrupt
 ISR (TIMER1_COMPA_vect) {
 	LAYER1::onTimeTransmit();
-//	LAYER1::onTimeReceive();
+	LAYER1::onTimeReceive();
 }
 
 int main (void) {

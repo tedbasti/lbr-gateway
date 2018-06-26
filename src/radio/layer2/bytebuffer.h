@@ -38,6 +38,10 @@ public:
 		fill = 0;
 	}
 
+	uint8_t getFill() {
+		return fill;
+	}
+
 	void rawValue(uint8_t* result) {
 		memcpy(result, buffer, fill);
 	}

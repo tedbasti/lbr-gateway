@@ -105,22 +105,25 @@ namespace LAYER2 {
 				//"Poor" version for end sequence
 				//Only check first bits
 				if ((seq & 0x3) == 0x3) {
-					//Get the checksum
-					uint8_t checksum = buffer.popByte();
-					//Generate a frame
-					Frame f;
-					buffer.rawValue((uint8_t *)&f);
-					ChecksumAlgo checkSum;
-					checkSum.addByte(f.receiver);
-					checkSum.addByte(f.sender);
-					checkSum.addByte(f.payloadLen);
-					checkSum.addBytes(f.payload, f.payloadLen);
 					/*
-					 * TODO: At the moment sender is always 0.
-					 * Adapt to some new cases.
+					 * Ensure that at least 5 bytes are within the buffer
+					 * receiver, sender, payloadlen, payload, checksum
+					 * TODO: Make 4 and 10 more generic (with some defines)
 					 */
-					if (checkSum.isValid() && f.sender == 0) {
-						USART::transmit(f.payload, f.payloadLen);
+					if(buffer.getFill() > 4 && buffer.getFill() < 10) {
+						//Get the checksum
+						uint8_t checksum = buffer.popByte();
+						//Generate a frame
+						Frame f;
+						buffer.rawValue((uint8_t *)&f);
+						ChecksumAlgo checkSum;
+						checkSum.addByte(f.receiver);
+						checkSum.addByte(f.sender);
+						checkSum.addByte(f.payloadLen);
+						checkSum.addBytes(f.payload, f.payloadLen);
+//						if (checkSum.getDigest() == checkSum) {
+							USART::transmit(f.payload, f.payloadLen);
+//						}
 					}
 				}
 				currentState = STATE_WAITING;
@@ -153,6 +156,7 @@ namespace LAYER2 {
 			// Get bit
 			bool bit = data & bitmask;
 			pushBitToLayer1(bit);
+			bitmask = (bitmask >> 1);
 		}
 	}
 
@@ -195,12 +199,12 @@ namespace LAYER2 {
 		pushByteToLayer1_Encoded(0xF0);
 		//Send start sequence
 		pushByteToLayer1(startSeq);
-		//Send the len
-		pushByteToLayer1_Encoded(len);
 		//Send the Receiver
 		pushByteToLayer1_Encoded(receiverID);
 		//Send the transmitter
 		pushByteToLayer1_Encoded((char)0);
+		//Send the len
+		pushByteToLayer1_Encoded(len);
 		//Send the data
 		for(uint8_t i=0; i<len; i++) {
 			pushByteToLayer1_Encoded(data[i]);
