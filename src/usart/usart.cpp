@@ -1,5 +1,6 @@
 
 #include "usart.h"
+#include "../util/config.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -39,33 +40,69 @@ static USART::callbackFunc _cbFunc;
  */
 
 #define STATE_INITIAL 0
+#define LAYER2 2
+#define LAYER3 3
 #define STATE_INITIAL_SIZE 5
 #define STATE_DIRECT_CONNECTION 1
 #define STATE_DIRECT_CONNECTION_SIZE 5
 #define STATE_MULTI_CONNECTION 2
 #define STATE_MULTI_CONNECTION_SIZE 5
 
+/*
+ * Initialize "protocol": (size 5)
+ * ==================================
+ * [SenderId]: The id used when sending frames
+ * [ReceiverId]: The id used when receiving frames
+ * 		(Frames with another receivers will be dropped)
+ * [Layer2/Layer3]: Layer3 is layer2 with acknowledgement
+ * 					packages
+ * [LengthOfPayload]: between 1 and 5 bytes will be for data
+ * [Protocol] DirectConnection of Multi/Connection
+ */
+
 ISR(USART_RX_vect) {
 	//Read the Data
-	unsigned char data = UDR0;
+	uint8_t data = UDR0;
 	/*
 	 * - buffer is there to hold more than one char/uint8_t
 	 * - bufferPos holds the current pos, where to write
 	 * - state is the current state.
 	 * For state descriptions look above.
 	 */
-	uint8_t buffer[6];
-	uint8_t bufferPos = 0;
-	uint8_t state = STATE_INITIAL;
+	static uint8_t buffer[6];
+	static uint8_t bufferPos = 0;
+	static uint8_t protocolType;
+	static uint8_t state = STATE_INITIAL;
+
+	buffer[bufferPos++] = data;
+
 	switch (state) {
 	case STATE_INITIAL:
-		//TODO: Set some configuration information
+		if (bufferPos == STATE_INITIAL_SIZE) {
+			bufferPos=0;
+			CONFIG::senderId = buffer[0];
+			CONFIG::receiverId = buffer[1];
+			CONFIG::layerConfig = buffer[2];
+			CONFIG::payloadLen = buffer[3];
+			protocolType = buffer[4];
+			if ((CONFIG::layerConfig == LAYER2 || CONFIG::layerConfig == LAYER3) &&
+					CONFIG::payloadLen > 0 && CONFIG::payloadLen < 5) {
+				//TODO: More generic?
+				state = STATE_DIRECT_CONNECTION;
+				/*
+				 * TODO: Maybe some error message over usart,
+				 * because otherwise the user doesnt know what
+				 * went wrong.
+				 */
+			}
+		}
 	break;
 	case STATE_DIRECT_CONNECTION:
-		//TODO: Receive data and send to layer2/layer3
+		if (bufferPos == STATE_DIRECT_CONNECTION_SIZE) {
+			//TODO: Receive data and send to layer2/layer3
+		}
+		break;
 	}
-
-	_cbFunc(data);
 }
 
 
