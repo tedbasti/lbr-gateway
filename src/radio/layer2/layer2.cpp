@@ -115,7 +115,16 @@ namespace LAYER2 {
 						uint8_t checksum = buffer.popByte();
 						//Generate a frame
 						Frame f;
-						buffer.rawValue((uint8_t *)&f);
+						//Calculate the payloadLen
+						f.payloadLen = buffer.getFill()-2;
+						/*
+						 * The second parameter is what to skip.
+						 * In this case only receiver and
+						 * sender needs to be skipped
+						 */
+						buffer.rawValue(f.payload, 2);
+						f.sender = buffer.popByte();
+						f.receiver = buffer.popByte();
 						ChecksumAlgo checkSum;
 						checkSum.addByte(f.receiver);
 						checkSum.addByte(f.sender);
@@ -203,8 +212,6 @@ namespace LAYER2 {
 		pushByteToLayer1_Encoded(receiverID);
 		//Send the transmitter
 		pushByteToLayer1_Encoded((char)0);
-		//Send the len
-		pushByteToLayer1_Encoded(len);
 		//Send the data
 		for(uint8_t i=0; i<len; i++) {
 			pushByteToLayer1_Encoded(data[i]);

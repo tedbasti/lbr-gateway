@@ -42,8 +42,9 @@ public:
 		return fill;
 	}
 
-	void rawValue(uint8_t* result) {
-		memcpy(result, buffer, fill);
+	void rawValue(uint8_t* result, uint8_t skip=0) {
+		memcpy(result, buffer+skip, fill);
+		fill = skip;
 	}
 };
 
