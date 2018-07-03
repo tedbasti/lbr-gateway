@@ -12,7 +12,6 @@
 #include <stdint.h>
 
 
-
 typedef uint16_t Buffersize;
 
 template <Buffersize Size>
@@ -71,9 +70,10 @@ public:
 			return false;
 		}
 		readIndex = (readIndex - 1)%Size;
-		// TODO: Implementation
+		DataSet * const data = &dataSetArray[readIndex];
+		data->payload = dataSet->payload;
 		space -= 1;
-		// return true;
+		return true;
 	}
 
 	bool pushBack(DataSet dataSet) {
@@ -90,10 +90,11 @@ public:
 		if(isFull()) {
 			return false;
 		}
-		// TODO: Implementation
+		DataSet * const data = &dataSetArray[writeIndex];
+		data->payload = dataSet->payload;
 		writeIndex = (writeIndex + 1)%Size;
 		space -= 1;
-		// return true;
+		return true;
 	}
 
 	DataSet popFront() {
@@ -121,7 +122,6 @@ private:
 	Buffersize space;
 
 };
-
 
 
 #endif /* SRC_RADIO_DATABUFFER_H_ */

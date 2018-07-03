@@ -16,7 +16,4 @@ struct DataSet {
 };
 
 
-
-
-
 #endif /* SRC_RADIO_DATASET_H_ */
