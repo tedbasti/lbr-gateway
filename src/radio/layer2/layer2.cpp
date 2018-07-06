@@ -110,7 +110,7 @@ namespace LAYER2 {
 					 * receiver, sender, payloadlen, payload, checksum
 					 * TODO: Make 4 and 10 more generic (with some defines)
 					 */
-					if(buffer.getFill() > 4 && buffer.getFill() < 10) {
+					if(buffer.getFill() > 3 && buffer.getFill() < 10) {
 						//Get the checksum
 						uint8_t checksum = buffer.popByte();
 						//Generate a frame
