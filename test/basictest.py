@@ -22,8 +22,16 @@ def openSerial(port):
 
 #InitializeSender will be for the usart initialization
 def initializeSender(ser):
-	#At the moment no initialization needed
-	pass
+	#SenderID: Sender is "Master"
+	ser.write("\x00")
+	#ReceiverID: Receiver has id 1
+	ser.write("\x01")
+	#layerconfig: At the moment layer2
+	ser.write("\x02")
+	#payloadlen: Only one at the moment
+	ser.write("\x01")
+	#USART Protocol type: isnt read at the moment
+	ser.write("\x01")
 	
 class BasicTest(unittest.TestCase):
 	def setUp(self):
@@ -35,6 +43,7 @@ class BasicTest(unittest.TestCase):
 		time.sleep(2)
 		#Initialize the sender
 		initializeSender(self.serSnd)
+		time.sleep(0.5)
 		
 	def tearDown(self):
 		self.serRcv.close()
@@ -43,7 +52,7 @@ class BasicTest(unittest.TestCase):
 	def test_basic(self):
 		self.serSnd.write("aaaaa")
 		self.serSnd.flush()
-		time.sleep(1)		
+		time.sleep(1)
 		message = self.serRcv.read(self.serRcv.inWaiting())
 		#At least one a must be sent!
 		self.assertNotEquals(message.find('a'), -1)
