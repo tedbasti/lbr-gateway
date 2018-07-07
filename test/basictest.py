@@ -54,6 +54,7 @@ class BasicTest(unittest.TestCase):
 		self.serSnd.flush()
 		time.sleep(1)
 		message = self.serRcv.read(self.serRcv.inWaiting())
+		print message
 		#At least one a must be sent!
 		self.assertNotEquals(message.find('a'), -1)
 
