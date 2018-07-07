@@ -112,7 +112,7 @@ namespace LAYER2 {
 					 */
 					if(buffer.getFill() > 3 && buffer.getFill() < 10) {
 						//Get the checksum
-						uint8_t checksum = buffer.popByte();
+						uint8_t checksumReceived = buffer.popByte();
 						//Generate a frame
 						Frame f;
 						//Calculate the payloadLen
@@ -130,9 +130,9 @@ namespace LAYER2 {
 						checkSum.addByte(f.sender);
 						checkSum.addByte(f.payloadLen);
 						checkSum.addBytes(f.payload, f.payloadLen);
-//						if (checkSum.getDigest() == checkSum) {
+						if (checkSum.getDigest() == checksumReceived) {
 							USART::transmit(f.payload, f.payloadLen);
-//						}
+						}
 					}
 				}
 				currentState = STATE_WAITING;
