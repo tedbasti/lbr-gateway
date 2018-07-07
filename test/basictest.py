@@ -21,7 +21,7 @@ def openSerial(port):
 	return ser
 
 #InitializeSender will be for the usart initialization
-def initializeSender(ser):
+def initializeSender(ser, payloadLen):
 	#SenderID: Sender is "Master"
 	ser.write("\x00")
 	#ReceiverID: Receiver has id 1
@@ -29,7 +29,8 @@ def initializeSender(ser):
 	#layerconfig: At the moment layer2
 	ser.write("\x02")
 	#payloadlen: Only one at the moment
-	ser.write("\x01")
+	#ser.write("\x01")
+	ser.write(payloadLen)
 	#USART Protocol type: isnt read at the moment
 	ser.write("\x01")
 	
@@ -41,22 +42,48 @@ class BasicTest(unittest.TestCase):
 		#The receiver
 		self.serRcv = openSerial(receiverPort)
 		time.sleep(2)
-		#Initialize the sender
-		initializeSender(self.serSnd)
-		time.sleep(0.5)
-		
+
 	def tearDown(self):
 		self.serRcv.close()
 		self.serSnd.close()
+	
+	def initialize(self, payloadLen):
+		initializeSender(self.serSnd, payloadLen)
+		time.sleep(0.5)
+	
+	def sendBytesAndTestResult(self, payloadLen, stringToWrite, stringToCheck):
+		self.initialize(payloadLen)
 		
-	def test_basic(self):
-		self.serSnd.write("aaaaa")
+		self.serSnd.write(stringToWrite)
 		self.serSnd.flush()
 		time.sleep(1)
 		message = self.serRcv.read(self.serRcv.inWaiting())
 		print message
 		#At least one a must be sent!
-		self.assertNotEquals(message.find('a'), -1)
+		self.assertNotEquals(message.find(stringToCheck), -1)
+			
+	"""
+		Test some simple a chars with 
+		payloadLen 1.
+	"""
+	def test_payloadLen01(self):
+		self.sendBytesAndTestResult("\x01", "aa", "a")
+
+	def test_payloadLen02(self):
+		self.sendBytesAndTestResult("\x02", "aaaa", "a")
+
+	def test_payloadLen03(self):
+		self.sendBytesAndTestResult("\x03", "aaaaaa", "a")
+
+	def test_payloadLen04(self):
+		self.sendBytesAndTestResult("\x04", "aaaaaaaa", "a")
+
+	"""This test is to count how much packages
+		Will get lost, with some tests
+	"""
+	def test_sendMuchPackages(self):
+		print "Starting sendMuchPackages:"
+		self.sendBytesAndTestResult("\x01", "aaaaaaaaaa", "a")
 
 if __name__ == '__main__':
     unittest.main()
