@@ -6,6 +6,11 @@
 #include "bytebuffer.h"
 #include "../../usart/usart.h"
 
+namespace CONFIG {
+	extern uint8_t senderId;
+	extern uint8_t receiverId;
+}
+
 namespace LAYER2 {
 	typedef XorChecksum8 ChecksumAlgo;
 	const uint8_t startSeq = 0xE3; // 11100011
@@ -130,7 +135,13 @@ namespace LAYER2 {
 						checkSum.addByte(f.sender);
 						checkSum.addByte(f.payloadLen);
 						checkSum.addBytes(f.payload, f.payloadLen);
-						if (checkSum.getDigest() == checksumReceived) {
+						/*
+						 * f.receiver == CONFIG::senderId may look strange,
+						 * but the initial sender puts the receiverId.
+						 * This is for the receiver his configured senderId.
+						 * TODO: Maybe switch names within the CONFIG stuff
+						 */
+						if (checkSum.getDigest() == checksumReceived && f.receiver == CONFIG::senderId) {
 							USART::transmit(f.payload, f.payloadLen);
 						}
 					}
@@ -211,7 +222,7 @@ namespace LAYER2 {
 		//Send the Receiver
 		pushByteToLayer1_Encoded(receiverID);
 		//Send the transmitter
-		pushByteToLayer1_Encoded((char)0);
+		pushByteToLayer1_Encoded(CONFIG::senderId);
 		//Send the data
 		for(uint8_t i=0; i<len; i++) {
 			pushByteToLayer1_Encoded(data[i]);

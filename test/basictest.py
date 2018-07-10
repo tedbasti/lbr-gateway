@@ -7,6 +7,8 @@ import unittest
 
 senderPort = '/dev/ttyUSB0'
 receiverPort = '/dev/ttyUSB1'
+senderId = "\x00"
+receiverId = "\x01"
 
 #some helper functions
 #openSerial just opens the serial connection
@@ -20,19 +22,18 @@ def openSerial(port):
 	ser.open()
 	return ser
 
-#InitializeSender will be for the usart initialization
-def initializeSender(ser, payloadLen):
-	#SenderID: Sender is "Master"
-	ser.write("\x00")
-	#ReceiverID: Receiver has id 1
-	ser.write("\x01")
+def initializePort(ser, payloadLen, sender, receiver):
+	#SenderID
+	ser.write(sender)
+	#ReceiverID
+	ser.write(receiver)
 	#layerconfig: At the moment layer2
 	ser.write("\x02")
-	#payloadlen: Only one at the moment
-	#ser.write("\x01")
+	#payloadlen
 	ser.write(payloadLen)
-	#USART Protocol type: isnt read at the moment
+	#USART Protocol type: No one reads this field at the moment 
 	ser.write("\x01")
+	
 	
 class BasicTest(unittest.TestCase):
 	def setUp(self):
@@ -48,7 +49,9 @@ class BasicTest(unittest.TestCase):
 		self.serSnd.close()
 	
 	def initialize(self, payloadLen):
-		initializeSender(self.serSnd, payloadLen)
+		initializePort(self.serSnd, payloadLen, senderId, receiverId)
+		initializePort(self.serRcv, payloadLen, receiverId, senderId)
+		
 		time.sleep(0.5)
 	
 	def sendBytesAndTestResult(self, payloadLen, stringToWrite, stringToCheck):
@@ -70,13 +73,13 @@ class BasicTest(unittest.TestCase):
 		self.sendBytesAndTestResult("\x01", "aa", "a")
 
 	def test_payloadLen02(self):
-		self.sendBytesAndTestResult("\x02", "aaaa", "a")
+		self.sendBytesAndTestResult("\x02", "aaaa", "aa")
 
 	def test_payloadLen03(self):
-		self.sendBytesAndTestResult("\x03", "aaaaaa", "a")
+		self.sendBytesAndTestResult("\x03", "aaaaaa", "aaa")
 
 	def test_payloadLen04(self):
-		self.sendBytesAndTestResult("\x04", "aaaaaaaa", "a")
+		self.sendBytesAndTestResult("\x04", "aaaaaaaaaaaa", "aaaa")
 
 	"""This test is to count how much packages
 		Will get lost, with some tests
