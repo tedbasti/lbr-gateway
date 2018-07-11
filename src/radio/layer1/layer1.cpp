@@ -11,6 +11,10 @@
 #include "../bitringbuffer.h"
 #include "../../util/util.h"
 
+namespace MAIN {
+	extern BitRingBuffer<1024> receiveBuffer;
+}
+
 namespace LAYER1 {
 static BitRingBuffer<1024> ringBuf;
 
@@ -33,7 +37,7 @@ void onTimeTransmit() {
 
 void onTimeReceive() {
 	uint8_t dataBit = DATA_IN ? 1 : 0;
-	LAYER2::receiveBit(dataBit);
+	MAIN::receiveBuffer.pushBit(dataBit);
 }
 
 }

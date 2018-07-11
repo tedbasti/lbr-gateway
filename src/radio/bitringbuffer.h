@@ -76,7 +76,7 @@ private:
 	uint8_t data[Size/8];
 	BufferSize readIdx;
 	BufferSize writeIdx;
-	BufferSize space;
+	volatile BufferSize space;
 };
 
 #endif
