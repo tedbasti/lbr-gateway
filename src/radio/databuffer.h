@@ -105,7 +105,6 @@ public:
 		return dataSetArray[readIndex++];
 	}
 
-
 	DataSet popBack() {
 		if(isEmpty()) {
 			return nullptr;
