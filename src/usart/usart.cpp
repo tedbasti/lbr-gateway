@@ -106,7 +106,6 @@ ISR(USART_RX_vect) {
 				 * went wrong.
 				 */
 				if (CONFIG::layerConfig == LAYER3_CODE) {
-					//TODO: CHange
 					MAIN::onHandlingNeeded = LAYER3::onHandlingNeeded;
 					MAIN::sendData = LAYER3::sendData;
 				}
