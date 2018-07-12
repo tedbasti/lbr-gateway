@@ -11,6 +11,9 @@
 #define PACKET_CODE_DATA 0
 #define PACKET_CODE_ACK 1
 
+#define TIMEOUT 255
+#define TIMEOUT_MAX_RESEND 3
+
 #include <stdint.h>
 #include "../databuffer.h"
 #include "../../util/configExtern.h"

@@ -6,30 +6,21 @@
 
 namespace LAYER3 {
 
-	static bool timerActivated = false;
-	static uint8_t timerCounter = 0;
+	volatile static bool timerActivated = false;
+	volatile static uint16_t timerCounter = 0;
 
 	void onTime() {
 		if(timerActivated) {
 			timerCounter += 1;
+			if(timerCounter == TIMEOUT) {
+				timerActivated = false;
+			}
 		}
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
-		switch(timerActivated) {
-			case true:
-				if(timerCounter == 255) {
-					sendData(transmitbuffer);
-				}
-				break;
-
-			case false:
-				if(transmitbuffer.isEmpty() == false) {
-					sendData(transmitbuffer);
-					timerActivated = false;
-					timerCounter = 0;
-				}
-				break;
+		if((transmitbuffer.isEmpty() == false) && (timerActivated == false)) {
+			return true;
 		}
 	}
 
@@ -39,5 +30,7 @@ namespace LAYER3 {
 		packet[0] = PACKET_CODE_DATA;
 		memcpy(&packet[1], payload, CONFIG::payloadLen);
 		LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen + 1);
+		timerCounter = 0;
+		timerActivated = true;
 	}
 }
