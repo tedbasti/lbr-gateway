@@ -10,7 +10,7 @@
 
 #include "dataset.h"
 #include <stdint.h>
-#include <cstring.h>
+#include <string.h>
 
 
 typedef uint16_t Buffersize;
