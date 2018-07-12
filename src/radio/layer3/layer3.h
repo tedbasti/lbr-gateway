@@ -8,6 +8,9 @@
 #ifndef SRC_RADIO_LAYER3_LAYER3_H_
 #define SRC_RADIO_LAYER3_LAYER3_H_
 
+#define PACKET_CODE_DATA 0
+#define PACKET_CODE_ACK 1
+
 #include <stdint.h>
 #include "../databuffer.h"
 #include "../../util/configExtern.h"
