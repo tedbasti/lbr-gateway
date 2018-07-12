@@ -9,6 +9,7 @@
 #include "radio/layer2/layer2.h"
 #include "radio/layer1/layer1.h"
 #include "radio/bitringbuffer.h"
+#include "radio/databuffer.h"
 
 // timer0 (8bit) overflow interrupt
 ISR (TIMER0_OVF_vect) {
@@ -26,6 +27,7 @@ namespace MAIN {
  * the received bits, so that the main loop, could read them!
  */
 	BitRingBuffer<1024> receiveBuffer;
+	DataBuffer<100> transmitBuffer;
 }
 
 int main (void) {

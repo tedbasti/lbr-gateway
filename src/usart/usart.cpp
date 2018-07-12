@@ -1,10 +1,13 @@
 
 #include "usart.h"
 #include "../util/config.h"
+#include "../radio/dataset.h"
+#include "../radio/databuffer.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <string.h>
 
 
 #define FOSC 16000000				// System clock Speed
@@ -13,6 +16,10 @@
 
 
 static USART::callbackFunc _cbFunc;
+
+namespace MAIN {
+	extern DataBuffer<100> transmitBuffer;
+}
 
 /*
  * This function has two states:
@@ -100,6 +107,9 @@ ISR(USART_RX_vect) {
 	break;
 	case STATE_DIRECT_CONNECTION:
 		if (bufferPos == CONFIG::payloadLen) {
+			struct DataSet dataSet;
+			memcpy(dataSet.payload, buffer, CONFIG::payloadLen);
+			MAIN::transmitBuffer.pushBack(dataSet);
 			_cbFunc(CONFIG::receiverId, buffer, CONFIG::payloadLen);
 			bufferPos=0;
 		}
