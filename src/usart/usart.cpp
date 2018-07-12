@@ -4,6 +4,8 @@
 #include "../radio/dataset.h"
 #include "../radio/databuffer.h"
 #include "../util/configExtern.h"
+#include "../radio/layer3/layer3.h"
+#include "../radio/layer2/layer2.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -49,8 +51,8 @@ namespace MAIN {
  */
 
 #define STATE_INITIAL 0
-#define LAYER2 2
-#define LAYER3 3
+#define LAYER2_CODE 2
+#define LAYER3_CODE 3
 #define STATE_INITIAL_SIZE 5
 #define STATE_DIRECT_CONNECTION 1
 #define STATE_DIRECT_CONNECTION_SIZE 5
@@ -94,7 +96,7 @@ ISR(USART_RX_vect) {
 			CONFIG::layerConfig = buffer[2];
 			CONFIG::payloadLen = buffer[3];
 			protocolType = buffer[4];
-			if ((CONFIG::layerConfig == LAYER2 || CONFIG::layerConfig == LAYER3) &&
+			if ((CONFIG::layerConfig == LAYER2_CODE || CONFIG::layerConfig == LAYER3_CODE) &&
 					CONFIG::payloadLen > 0 && CONFIG::payloadLen < 5) {
 				//TODO: More generic?
 				state = STATE_DIRECT_CONNECTION;
@@ -103,6 +105,11 @@ ISR(USART_RX_vect) {
 				 * because otherwise the user doesnt know what
 				 * went wrong.
 				 */
+				if (CONFIG::layerConfig == LAYER3_CODE) {
+					//TODO: CHange
+					MAIN::onHandlingNeeded = LAYER3::onHandlingNeeded;
+					MAIN::sendData = LAYER3::sendData;
+				}
 			}
 		}
 	break;
