@@ -27,6 +27,7 @@ namespace MAIN {
  * Within that receiveBuffer, layer1. will put all
  * the received bits, so that the main loop, could read them!
  */
+	typedef bool (*callbackFunc)(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
 	BitRingBuffer<RECEIVE_BUFFER_SIZE> receiveBuffer;
 	DataBuffer<TRANSMIT_BUFFER_SIZE> transmitBuffer;
 //	typedef bool (*callbackFunc)(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);

@@ -34,7 +34,7 @@ namespace LAYER3 {
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
-		uint8_t packet[maxPayloadLen];
+		uint8_t packet[MAX_PAYLOAD_LEN];
 		const DataSet * payload = transmitbuffer.peekFront();
 		packet[0] = PACKET_CODE_DATA;
 		memcpy(&packet[1], payload, CONFIG::payloadLen);

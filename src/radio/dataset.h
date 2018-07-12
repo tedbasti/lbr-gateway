@@ -13,7 +13,7 @@
 
 
 struct DataSet {
-	uint8_t payload[maxPayloadLen];
+	uint8_t payload[MAX_PAYLOAD_LEN];
 };
 
 
