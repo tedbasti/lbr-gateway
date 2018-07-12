@@ -30,6 +30,11 @@ namespace MAIN {
 	DataBuffer<100> transmitBuffer;
 }
 
+namespace CONFIG {
+	extern uint8_t receiverId;
+	extern uint8_t payloadLen;
+}
+
 int main (void) {
 	/* Ports D7 as output */
 	DDRD |= (1<<PD7);
@@ -43,6 +48,10 @@ int main (void) {
 		if(MAIN::receiveBuffer.isEmpty() == false) {
 			bool bitValue = MAIN::receiveBuffer.popBit();
 			LAYER2::receiveBit(bitValue);
+		}
+		if (MAIN::transmitBuffer.isEmpty() == false) {
+			DataSet dSet = MAIN::transmitBuffer.popFront();
+			LAYER2::transmitData(CONFIG::receiverId, dSet.payload, CONFIG::payloadLen);
 		}
 	}
 }

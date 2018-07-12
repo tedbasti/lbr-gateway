@@ -110,7 +110,6 @@ ISR(USART_RX_vect) {
 			struct DataSet dataSet;
 			memcpy(dataSet.payload, buffer, CONFIG::payloadLen);
 			MAIN::transmitBuffer.pushBack(dataSet);
-			_cbFunc(CONFIG::receiverId, buffer, CONFIG::payloadLen);
 			bufferPos=0;
 		}
 		break;

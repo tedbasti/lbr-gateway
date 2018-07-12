@@ -98,7 +98,7 @@ private:
 	DataSet dataSetArray[Size];
 	Buffersize readIndex;
 	Buffersize writeIndex;
-	Buffersize space;
+	volatile Buffersize space;
 
 };
 
