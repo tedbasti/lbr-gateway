@@ -10,6 +10,7 @@
 
 #include "dataset.h"
 #include <stdint.h>
+#include <cstring.h>
 
 
 typedef uint16_t Buffersize;
@@ -55,43 +56,25 @@ public:
 		return space;
 	}
 
-	bool pushFront(DataSet dataSet) {
+	bool pushFront(DataSet &dataset) {
 		if(isFull()) {
 			return false;
 		}
 		readIndex = (readIndex - 1)%Size;
-		dataSetArray[readIndex] = dataSet;
+		DataSet datasetDest;
+		std::memcpy(datasetDest, dataset, sizeof dataset);
+		dataSetArray[readIndex] = datasetDest;
 		space -= 1;
 		return true;
 	}
 
-	bool pushFront(const DataSet * const dataSet) {
+	bool pushBack(DataSet &dataset) {
 		if(isFull()) {
 			return false;
 		}
-		readIndex = (readIndex - 1)%Size;
-		DataSet * const data = &dataSetArray[readIndex];
-		data->payload = dataSet->payload;
-		space -= 1;
-		return true;
-	}
-
-	bool pushBack(DataSet dataSet) {
-		if(isFull()) {
-			return false;
-		}
-		dataSetArray[writeIndex] = dataSet;
-		writeIndex = (writeIndex + 1)%Size;
-		space -= 1;
-		return true;
-	}
-
-	bool pushBack(const DataSet * const dataSet) {
-		if(isFull()) {
-			return false;
-		}
-		DataSet * const data = &dataSetArray[writeIndex];
-		data->payload = dataSet->payload;
+		DataSet datasetDest;
+		std::memcpy(datasetDest, dataset, sizeof dataset);
+		dataSetArray[writeIndex] = datasetDest;
 		writeIndex = (writeIndex + 1)%Size;
 		space -= 1;
 		return true;
