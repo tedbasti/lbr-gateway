@@ -9,6 +9,8 @@
 namespace CONFIG {
 	extern uint8_t senderId;
 	extern uint8_t receiverId;
+	extern uint8_t receiverId;
+	extern uint8_t payloadLen;
 }
 
 namespace LAYER2 {
@@ -230,5 +232,15 @@ namespace LAYER2 {
 		pushByteToLayer1_Encoded(ckSum.getDigest());
 		//Send end sequence
 		pushByteToLayer1(endSeq);
+	}
+
+	bool onHandlingNeeded(DataBuffer<100> &transmitBuffer) {
+		return !transmitBuffer.isEmpty();
+	}
+
+	bool sendData(DataBuffer<100> &transmitBuffer) {
+		DataSet dSet = transmitBuffer.popFront();
+		transmitData(CONFIG::receiverId, dSet.payload, CONFIG::payloadLen);
+		return true;
 	}
 }

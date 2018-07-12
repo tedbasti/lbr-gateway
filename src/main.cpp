@@ -28,6 +28,10 @@ namespace MAIN {
  */
 	BitRingBuffer<1024> receiveBuffer;
 	DataBuffer<100> transmitBuffer;
+	typedef bool (*callbackFunc)(DataBuffer<100> &transmitBuffer);
+
+	callbackFunc onHandlingNeeded = LAYER2::onHandlingNeeded;
+	callbackFunc sendData = LAYER2::sendData;
 }
 
 namespace CONFIG {
@@ -49,9 +53,8 @@ int main (void) {
 			bool bitValue = MAIN::receiveBuffer.popBit();
 			LAYER2::receiveBit(bitValue);
 		}
-		if (MAIN::transmitBuffer.isEmpty() == false) {
-			DataSet dSet = MAIN::transmitBuffer.popFront();
-			LAYER2::transmitData(CONFIG::receiverId, dSet.payload, CONFIG::payloadLen);
+		if (MAIN::onHandlingNeeded(MAIN::transmitBuffer)) {
+			MAIN::sendData(MAIN::transmitBuffer);
 		}
 	}
 }

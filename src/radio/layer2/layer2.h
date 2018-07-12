@@ -14,6 +14,7 @@
 #ifndef SRC_RADIO_LAYER2_LAYER2_H_
 #define SRC_RADIO_LAYER2_LAYER2_H_
 #include <stdint.h>
+#include "../databuffer.h"
 
 namespace LAYER2 {
 	/*
@@ -38,6 +39,16 @@ namespace LAYER2 {
 	 * (- Send start and end sequence)
 	 */
 	void transmitData(uint8_t rcv, uint8_t* data, uint8_t len);
+
+	/*
+	 * Need something to be done within the main loop?
+	 */
+	bool onHandlingNeeded(DataBuffer<100> &transmitBuffer);
+
+	/*
+	 * Sends the data, from the transmitbuffer
+	 */
+	bool sendData(DataBuffer<100> &transmitBuffer);
 }
 
 
