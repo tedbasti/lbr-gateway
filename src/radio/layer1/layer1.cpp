@@ -10,13 +10,14 @@
 
 #include "../bitringbuffer.h"
 #include "../../util/util.h"
+#include "../../util/configExtern.h"
 
 namespace MAIN {
-	extern BitRingBuffer<1024> receiveBuffer;
+	extern BitRingBuffer<RECEIVE_BUFFER_SIZE> receiveBuffer;
 }
 
 namespace LAYER1 {
-static BitRingBuffer<1024> ringBuf;
+static BitRingBuffer<RECEIVE_BUFFER_SIZE> ringBuf;
 
 void sendBit(bool bit) {
 	ringBuf.pushBit(bit);

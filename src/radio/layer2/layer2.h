@@ -15,6 +15,7 @@
 #define SRC_RADIO_LAYER2_LAYER2_H_
 #include <stdint.h>
 #include "../databuffer.h"
+#include "../../util/configExtern.h"
 
 namespace LAYER2 {
 	/*
@@ -43,12 +44,12 @@ namespace LAYER2 {
 	/*
 	 * Need something to be done within the main loop?
 	 */
-	bool onHandlingNeeded(DataBuffer<100> &transmitBuffer);
+	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
 
 	/*
 	 * Sends the data, from the transmitbuffer
 	 */
-	bool sendData(DataBuffer<100> &transmitBuffer);
+	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
 }
 
 

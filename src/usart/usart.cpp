@@ -3,6 +3,7 @@
 #include "../util/config.h"
 #include "../radio/dataset.h"
 #include "../radio/databuffer.h"
+#include "../util/configExtern.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -18,7 +19,7 @@
 static USART::callbackFunc _cbFunc;
 
 namespace MAIN {
-	extern DataBuffer<100> transmitBuffer;
+	extern DataBuffer<TRANSMIT_BUFFER_SIZE> transmitBuffer;
 }
 
 /*

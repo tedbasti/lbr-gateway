@@ -8,6 +8,9 @@
 #ifndef SRC_UTIL_CONFIGEXTERN_H_
 #define SRC_UTIL_CONFIGEXTERN_H_
 
+#define TRANSMIT_BUFFER_SIZE 100
+#define RECEIVE_BUFFER_SIZE 1024
+
 #include <stdint.h>
 
 namespace CONFIG {
@@ -16,5 +19,6 @@ namespace CONFIG {
 	extern uint8_t layerConfig;
 	extern uint8_t payloadLen;
 }
+
 
 #endif /* SRC_UTIL_CONFIGEXTERN_H_ */

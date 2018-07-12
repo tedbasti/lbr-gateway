@@ -5,6 +5,7 @@
 #include "usart/usart.h"
 #include "util/timer.h"
 #include "util/timerconf.h"
+#include "util/configExtern.h"
 
 #include "radio/layer2/layer2.h"
 #include "radio/layer1/layer1.h"
@@ -26,17 +27,12 @@ namespace MAIN {
  * Within that receiveBuffer, layer1. will put all
  * the received bits, so that the main loop, could read them!
  */
-	BitRingBuffer<1024> receiveBuffer;
-	DataBuffer<100> transmitBuffer;
-	typedef bool (*callbackFunc)(DataBuffer<100> &transmitBuffer);
+	BitRingBuffer<RECEIVE_BUFFER_SIZE> receiveBuffer;
+	DataBuffer<TRANSMIT_BUFFER_SIZE> transmitBuffer;
+	typedef bool (*callbackFunc)(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
 
 	callbackFunc onHandlingNeeded = LAYER2::onHandlingNeeded;
 	callbackFunc sendData = LAYER2::sendData;
-}
-
-namespace CONFIG {
-	extern uint8_t receiverId;
-	extern uint8_t payloadLen;
 }
 
 int main (void) {

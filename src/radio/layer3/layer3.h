@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include "../databuffer.h"
+#include "../../util/configExtern.h"
 
 
 namespace LAYER3 {
@@ -22,12 +23,12 @@ namespace LAYER3 {
 	/**
 	 * This function examinates if a certain  dataset needs to be sended.
 	 */
-	bool onHandlingNeeded(DataBuffer<100> &databuffer);
+	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &databuffer);
 
 	/**
 	 * This function creates the and sends the packets that needs to be sended.
 	 */
-	bool sendData(DataBuffer<100> &databuffer);
+	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &databuffer);
 }
 
 

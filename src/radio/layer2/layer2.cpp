@@ -234,11 +234,11 @@ namespace LAYER2 {
 		pushByteToLayer1(endSeq);
 	}
 
-	bool onHandlingNeeded(DataBuffer<100> &transmitBuffer) {
+	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
 		return !transmitBuffer.isEmpty();
 	}
 
-	bool sendData(DataBuffer<100> &transmitBuffer) {
+	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
 		DataSet dSet = transmitBuffer.popFront();
 		transmitData(CONFIG::receiverId, dSet.payload, CONFIG::payloadLen);
 		return true;
