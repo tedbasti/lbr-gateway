@@ -22,12 +22,12 @@ namespace LAYER3 {
 	/**
 	 * This function examinates if a certain  dataset needs to be sended.
 	 */
-	bool onHandlingNeeded(DataBuffer &databuffer);
+	bool onHandlingNeeded(DataBuffer<100> &databuffer);
 
 	/**
 	 * This function creates the and sends the packets that needs to be sended.
 	 */
-	bool sendData(DataBuffer &databuffer);
+	bool sendData(DataBuffer<100> &databuffer);
 }
 
 
