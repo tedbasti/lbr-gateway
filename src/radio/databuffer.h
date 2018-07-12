@@ -11,6 +11,7 @@
 #include "dataset.h"
 #include <stdint.h>
 #include <string.h>
+#include <assert.h>
 
 
 typedef uint16_t Buffersize;
@@ -81,17 +82,13 @@ public:
 	}
 
 	DataSet popFront() {
-		if(isEmpty()) {
-			return false;
-		}
+		assert(!isEmpty());
 		space += 1;
 		return dataSetArray[readIndex++];
 	}
 
 	DataSet popBack() {
-		if(isEmpty()) {
-			return nullptr;
-		}
+		assert(!isEmpty());
 		space += 1;
 		return dataSetArray[--writeIndex];
 	}
