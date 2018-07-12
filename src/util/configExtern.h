@@ -11,7 +11,7 @@
 #define TRANSMIT_BUFFER_SIZE 100
 #define RECEIVE_BUFFER_SIZE 1024
 
-#define maxPayloadLen
+#define maxPayloadLen 5
 
 #include <stdint.h>
 #include "../radio/databuffer.h"
