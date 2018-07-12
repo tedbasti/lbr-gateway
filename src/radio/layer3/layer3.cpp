@@ -19,9 +19,7 @@ namespace LAYER3 {
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
-		if((transmitbuffer.isEmpty() == false) && (timerActivated == false)) {
-			return true;
-		}
+		return ((transmitbuffer.isEmpty() == false) && (timerActivated == false));
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
@@ -32,5 +30,9 @@ namespace LAYER3 {
 		LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen + 1);
 		timerCounter = 0;
 		timerActivated = true;
+	}
+
+	void receiveData(const uint8_t *data, uint8_t len) {
+
 	}
 }

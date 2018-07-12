@@ -35,6 +35,11 @@ namespace LAYER3 {
 	 * This function creates the and sends the packets that needs to be sended.
 	 */
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &databuffer);
+
+	/**
+	 * This function receives a packet from layer 2.
+	 */
+	void receiveData(const uint8_t *data, uint8_t len);
 }
 
 
