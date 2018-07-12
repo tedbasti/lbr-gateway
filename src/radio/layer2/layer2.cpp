@@ -5,6 +5,7 @@
 #include "checksum.h"
 #include "bytebuffer.h"
 #include "../../usart/usart.h"
+#include "../../util/configExtern.h"
 
 namespace CONFIG {
 	extern uint8_t senderId;
@@ -213,7 +214,7 @@ namespace LAYER2 {
 	void transmitData(uint8_t receiverID, uint8_t* data, const uint8_t len){
 		ChecksumAlgo ckSum;
 		ckSum.addByte(receiverID);
-		ckSum.addByte(0);	// TODO Sender ID
+		ckSum.addByte(CONFIG::senderId);
 		ckSum.addByte(len);
 		ckSum.addBytes((const unsigned char*) data, len);
 		/* Send warmup bytes; these are apparently necessary
