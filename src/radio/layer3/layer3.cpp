@@ -34,10 +34,10 @@ namespace LAYER3 {
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
-		uint8_t packet[CONFIG::payloadLen + 1];
+		uint8_t packet[maxPayloadLen];
 		const DataSet * payload = transmitbuffer.peekFront();
 		packet[0] = CONFIG::senderId;
 		memcpy(&packet[1], payload, CONFIG::payloadLen);
-		LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen);
+		LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen + 1);
 	}
 }
