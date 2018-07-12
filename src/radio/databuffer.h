@@ -20,7 +20,7 @@ public:
 	DataBuffer() {
 		readIndex = 0;
 		writeIndex = 0;
-		space = size;
+		space = Size;
 	}
 
 	const DataSet * peekFront() {
@@ -40,7 +40,7 @@ public:
 	}
 
 	bool isEmpty() {
-		return (space == size);
+		return (space == Size);
 	}
 
 	bool isFull() {
@@ -115,7 +115,7 @@ public:
 
 
 private:
-	DataSet dataSetArray[size];
+	DataSet dataSetArray[Size];
 	Buffersize readIndex;
 	Buffersize writeIndex;
 	Buffersize space;
