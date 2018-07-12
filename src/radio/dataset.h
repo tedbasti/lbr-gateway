@@ -9,10 +9,11 @@
 #define SRC_RADIO_DATASET_H_
 
 #include <stdint.h>
+#include "../util/configExtern.h"
 
 
 struct DataSet {
-	uint8_t payload[5];
+	uint8_t payload[maxPayloadLen];
 };
 
 
