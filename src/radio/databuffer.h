@@ -62,7 +62,7 @@ public:
 		}
 		readIndex = (readIndex - 1)%Size;
 		DataSet datasetDest;
-		std::memcpy(datasetDest, dataset, sizeof dataset);
+		memcpy(&datasetDest, &dataset, sizeof dataset);
 		dataSetArray[readIndex] = datasetDest;
 		space -= 1;
 		return true;
@@ -73,7 +73,7 @@ public:
 			return false;
 		}
 		DataSet datasetDest;
-		std::memcpy(datasetDest, dataset, sizeof dataset);
+		memcpy(&datasetDest, &dataset, sizeof dataset);
 		dataSetArray[writeIndex] = datasetDest;
 		writeIndex = (writeIndex + 1)%Size;
 		space -= 1;
