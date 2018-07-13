@@ -60,7 +60,10 @@ class BasicTest(unittest.TestCase):
 		self.serSnd.write(stringToWrite)
 		self.serSnd.flush()
 		time.sleep(1)
-		message = self.serRcv.read(self.serRcv.inWaiting())
+		if layerVersion == "\x02":
+			message = self.serRcv.read(self.serRcv.inWaiting())
+		if layerVersion == "\x03":
+			message = self.serRcv.read(len(stringToCheck))
 		print message
 		#At least one a must be sent!
 		self.assertNotEquals(message.find(stringToCheck), -1)

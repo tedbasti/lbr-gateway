@@ -9,6 +9,7 @@
 
 #include "radio/layer2/layer2.h"
 #include "radio/layer1/layer1.h"
+#include "radio/layer3/layer3.h"
 #include "radio/bitringbuffer.h"
 #include "radio/databuffer.h"
 
@@ -20,6 +21,7 @@ ISR (TIMER0_OVF_vect) {
 ISR (TIMER1_COMPA_vect) {
 	LAYER1::onTimeTransmit();
 	LAYER1::onTimeReceive();
+	LAYER3::onTime();
 }
 
 namespace MAIN {
