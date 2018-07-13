@@ -44,11 +44,11 @@ namespace LAYER3 {
 				USART::transmit(data + 1, len - 1);
 				uint8_t packet[1];
 				packet[0] = PACKET_CODE_ACK;
-				LAYER2::transmitData(CONFIG::receiverId, &packet, 1);
+				LAYER2::transmitData(CONFIG::receiverId, packet, 1);
 				break;
 
 			case PACKET_CODE_ACK:
-				transmitbuffer.popFront();
+				MAIN::transmitBuffer.popFront();
 		}
 	}
 }
