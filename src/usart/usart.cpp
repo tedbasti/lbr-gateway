@@ -29,7 +29,7 @@ namespace MAIN {
 
 namespace LAYER2 {
 	typedef void (*nextLayerFunction)(const uint8_t *data, uint8_t len);
-	extern nextLayerFunction volatile higherLayer = USART::transmit;
+	extern nextLayerFunction volatile higherLayer;
 }
 
 /*
