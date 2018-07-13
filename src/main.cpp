@@ -32,8 +32,8 @@ namespace MAIN {
 	DataBuffer<TRANSMIT_BUFFER_SIZE> transmitBuffer;
 //	typedef bool (*callbackFunc)(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
 
-	callbackFunc onHandlingNeeded = LAYER2::onHandlingNeeded;
-	callbackFunc sendData = LAYER2::sendData;
+	callbackFunc volatile onHandlingNeeded = LAYER2::onHandlingNeeded;
+	callbackFunc volatile sendData = LAYER2::sendData;
 }
 
 int main (void) {

@@ -15,6 +15,8 @@ namespace CONFIG {
 }
 
 namespace LAYER2 {
+	typedef void (*nextLayerFunction)(const uint8_t *data, uint8_t len);
+	nextLayerFunction volatile higherLayer = USART::transmit;
 	typedef XorChecksum8 ChecksumAlgo;
 	const uint8_t startSeq = 0xE3; // 11100011
 	const uint8_t endSeq = 0xFF; // 11111111
@@ -145,7 +147,7 @@ namespace LAYER2 {
 						 * TODO: Maybe switch names within the CONFIG stuff
 						 */
 						if (checkSum.getDigest() == checksumReceived && f.receiver == CONFIG::senderId) {
-							USART::transmit(f.payload, f.payloadLen);
+							higherLayer(f.payload, f.payloadLen);
 						}
 					}
 				}

@@ -27,6 +27,11 @@ namespace MAIN {
 	extern callbackFunc sendData;
 }
 
+namespace LAYER2 {
+	typedef void (*nextLayerFunction)(const uint8_t *data, uint8_t len);
+	extern nextLayerFunction volatile higherLayer = USART::transmit;
+}
+
 /*
  * This function has two states:
  * - Initialisation State (0)
@@ -111,6 +116,7 @@ ISR(USART_RX_vect) {
 				if (CONFIG::layerConfig == LAYER3_CODE) {
 					MAIN::onHandlingNeeded = LAYER3::onHandlingNeeded;
 					MAIN::sendData = LAYER3::sendData;
+					LAYER2::higherLayer = LAYER3::receiveData;
 				}
 			}
 		}
@@ -145,7 +151,7 @@ namespace USART {
 		sei();
 	}
 
-	void transmit(unsigned char data) {
+	void transmitChar(unsigned char data) {
 		// Wait for empty transmit buffer
 		while (!( UCSR0A & (1 << UDRE0)));
 
@@ -153,15 +159,9 @@ namespace USART {
 		UDR0 = data;
 	}
 
-	void transmit(const char *data) {
-		for(const char *p = data; *p; ++p) {
-			transmit(*p);
-		}
-	}
-
 	void transmit(const uint8_t *data, uint8_t len) {
 		for(uint8_t i = 0; i < len; i++) {
-			transmit(data[i]);
+			transmitChar(data[i]);
 		}
 	}
 

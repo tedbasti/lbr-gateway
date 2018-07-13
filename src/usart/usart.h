@@ -56,9 +56,7 @@ namespace USART {
 	 *
 	 * 	data: unsigned char
 	 */
-	void transmit(unsigned char data);
-
-	void transmit(const char *data);
+	void transmitChar(unsigned char data);
 
 	void transmit(const uint8_t *data, uint8_t len);
 
