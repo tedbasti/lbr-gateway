@@ -22,13 +22,13 @@ def openSerial(port):
 	ser.open()
 	return ser
 
-def initializePort(ser, payloadLen, sender, receiver):
+def initializePort(ser, payloadLen, sender, receiver, layerVersion="\x02"):
 	#SenderID
 	ser.write(sender)
 	#ReceiverID
 	ser.write(receiver)
 	#layerconfig: At the moment layer2
-	ser.write("\x02")
+	ser.write(layerVersion)
 	#payloadlen
 	ser.write(payloadLen)
 	#USART Protocol type: No one reads this field at the moment 
@@ -48,14 +48,14 @@ class BasicTest(unittest.TestCase):
 		self.serRcv.close()
 		self.serSnd.close()
 	
-	def initialize(self, payloadLen):
-		initializePort(self.serSnd, payloadLen, senderId, receiverId)
-		initializePort(self.serRcv, payloadLen, receiverId, senderId)
+	def initialize(self, payloadLen, layerVersion="\x02"):
+		initializePort(self.serSnd, payloadLen, senderId, receiverId, layerVersion)
+		initializePort(self.serRcv, payloadLen, receiverId, senderId, layerVersion)
 		
 		time.sleep(0.5)
 	
-	def sendBytesAndTestResult(self, payloadLen, stringToWrite, stringToCheck):
-		self.initialize(payloadLen)
+	def sendBytesAndTestResult(self, payloadLen, stringToWrite, stringToCheck, layerVersion="\x02"):
+		self.initialize(payloadLen, layerVersion)
 		
 		self.serSnd.write(stringToWrite)
 		self.serSnd.flush()
@@ -80,6 +80,14 @@ class BasicTest(unittest.TestCase):
 
 	def test_payloadLen04(self):
 		self.sendBytesAndTestResult("\x04", "aaaaaaaaaaaa", "aaaa")
+
+	def test_payloadLen01_layer3(self):
+		val="a"
+		self.sendBytesAndTestResult("\x01", val, val, "\x03")
+
+	def test_payloadLen01_layer3_much(self):
+		val="aaaaaaaaaa"
+		self.sendBytesAndTestResult("\x01", val, val, "\x03")
 
 	"""This test is to count how much packages
 		Will get lost, with some tests
