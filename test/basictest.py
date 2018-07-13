@@ -54,15 +54,15 @@ class BasicTest(unittest.TestCase):
 		
 		time.sleep(0.5)
 	
-	def sendBytesAndTestResult(self, payloadLen, stringToWrite, stringToCheck, layerVersion="\x02"):
+	def sendBytesAndTestResult(self, payloadLen, stringToWrite, stringToCheck, layerVersion="\x02", waitForAllPackages=False):
 		self.initialize(payloadLen, layerVersion)
 		
 		self.serSnd.write(stringToWrite)
 		self.serSnd.flush()
 		time.sleep(1)
-		if layerVersion == "\x02":
+		if not waitForAllPackages:
 			message = self.serRcv.read(self.serRcv.inWaiting())
-		if layerVersion == "\x03":
+		else:
 			message = self.serRcv.read(len(stringToCheck))
 		print message
 		#At least one a must be sent!
@@ -73,30 +73,43 @@ class BasicTest(unittest.TestCase):
 		payloadLen 1.
 	"""
 	def test_payloadLen01(self):
+		print "test_payloadLen01"
 		self.sendBytesAndTestResult("\x01", "aa", "a")
 
 	def test_payloadLen02(self):
+		print "test_payloadLen02"
 		self.sendBytesAndTestResult("\x02", "aaaa", "aa")
 
 	def test_payloadLen03(self):
+		print "test_payloadLen03"
 		self.sendBytesAndTestResult("\x03", "aaaaaa", "aaa")
 
 	def test_payloadLen04(self):
+		print "test_payloadLen04"
 		self.sendBytesAndTestResult("\x04", "aaaaaaaaaaaa", "aaaa")
 
 	def test_payloadLen01_layer3(self):
+		print "test_payloadLen01_layer3"
 		val="a"
+		self.sendBytesAndTestResult("\x01", val, "a", "\x03")
+#		message = self.serSnd.read(1)
+#		print "sender: " + message
+
+	def ntest_payloadLen01_layer3_SameLetter(self):
+		print "test_payloadLen01_layer3_SameLetter"
+		val="aaaaaaaaaa"
 		self.sendBytesAndTestResult("\x01", val, val, "\x03")
 
-	def test_payloadLen01_layer3_much(self):
-		val="aaaaaaaaaa"
+	def ntest_payloadLen01_layer3_much(self):
+		print "test_payloadLen01_layer3_much"
+		val="abcde"
 		self.sendBytesAndTestResult("\x01", val, val, "\x03")
 
 	"""This test is to count how much packages
 		Will get lost, with some tests
 	"""
 	def test_sendMuchPackages(self):
-		print "Starting sendMuchPackages:"
+		print "test_sendMuchPackages"
 		self.sendBytesAndTestResult("\x01", "aaaaaaaaaa", "a")
 
 if __name__ == '__main__':
