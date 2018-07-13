@@ -19,7 +19,7 @@ namespace LAYER2 {
 	nextLayerFunction volatile higherLayer = USART::transmit;
 	typedef XorChecksum8 ChecksumAlgo;
 	const uint8_t startSeq = 0xE3; // 11100011
-	const uint8_t endSeq = 0xFF; // 11111111
+	const uint8_t endSeq = 0xFE; // 11111110
 	static uint8_t byte = 0;
 	static uint8_t bitsReceived = 0;
 	/*
