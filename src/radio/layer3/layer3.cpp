@@ -19,6 +19,7 @@ namespace LAYER3 {
 		if(timerActivated) {
 			timerCounter += 1;
 			if(timerCounter == TIMEOUT) {
+				timerCounter = 0;
 				timerActivated = false;
 			}
 		}
@@ -34,21 +35,23 @@ namespace LAYER3 {
 		packet[0] = PACKET_CODE_DATA;
 		memcpy(&packet[1], payload, CONFIG::payloadLen);
 		LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen + 1);
-		timerCounter = 0;
 		timerActivated = true;
 	}
 
 	void receiveData(const uint8_t *data, uint8_t len) {
 		switch(data[0]) {
 			case PACKET_CODE_DATA:
-				USART::transmit(data + 1, len - 1);
 				uint8_t packet[1];
 				packet[0] = PACKET_CODE_ACK;
 				LAYER2::transmitData(CONFIG::receiverId, packet, 1);
+				USART::transmit(data+1, len-1);
 				break;
 
 			case PACKET_CODE_ACK:
-				MAIN::transmitBuffer.popFront();
+				if (!MAIN::transmitBuffer.isEmpty()) {
+					MAIN::transmitBuffer.popFront();
+				}
+				break;
 		}
 	}
 }

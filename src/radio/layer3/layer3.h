@@ -11,7 +11,7 @@
 #define PACKET_CODE_DATA 0
 #define PACKET_CODE_ACK 1
 
-#define TIMEOUT 400
+#define TIMEOUT (uint16_t) 400
 #define TIMEOUT_MAX_RESEND 3
 
 #include <stdint.h>
