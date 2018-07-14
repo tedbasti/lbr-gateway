@@ -30,7 +30,7 @@ void setupTimer16bit(uint16_t prescaler, uint16_t frequency) {
 	assert(prescalerCorrect);
 
 	// Assert that the specified frequency can be established with the specified prescaler.
-	assert(1 <= (16000000/prescaler/frequency/2 - 1) <= 65535);
+	assert((1 <= (16000000/prescaler/frequency/2 - 1)) && ((16000000/prescaler/frequency/2 - 1) <= 65535));
 
 	// Reset TC1 Control Register A
 	TCCR1A = 0x00;
