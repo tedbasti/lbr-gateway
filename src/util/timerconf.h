@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-namespace TimerConf {
+namespace TIMERCONF {
 
 #define FOSC 16000000							// Quartz oscillator frequency [Hz]
 #define PRESCALER 256							// Prescaler
