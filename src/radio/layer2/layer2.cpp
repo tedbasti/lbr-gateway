@@ -247,7 +247,10 @@ namespace LAYER2 {
 		}
 		pushByteToLayer1_Encoded(ckSum.getDigest());
 		//Send end sequence
-		pushByteToLayer1(endSeq);
+		pushBitToLayer1(1);
+		pushBitToLayer1(1);
+		//Just a zero to deactivate sending
+		pushBitToLayer1(0);
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {

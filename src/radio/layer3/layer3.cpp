@@ -4,6 +4,7 @@
 #include "../layer2/layer2.h"
 #include "../../util/configExtern.h"
 #include "../../usart/usart.h"
+#include <util/delay.h>
 
 
 namespace MAIN {
@@ -43,6 +44,7 @@ namespace LAYER3 {
 			case PACKET_CODE_DATA:
 				uint8_t packet[1];
 				packet[0] = PACKET_CODE_ACK;
+				_delay_ms(DELAY_ACK_PACKET_MS);
 				LAYER2::transmitData(CONFIG::receiverId, packet, 1);
 				USART::transmit(data+1, len-1);
 				DEBUG_PRINT('D');

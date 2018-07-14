@@ -11,8 +11,10 @@
 #define PACKET_CODE_DATA 0
 #define PACKET_CODE_ACK 1
 
-#define TIMEOUT (uint16_t) 400
+#define TIMEOUT (uint16_t) 4000
 #define TIMEOUT_MAX_RESEND 3
+
+#define DELAY_ACK_PACKET_MS 300
 
 #include <stdint.h>
 #include "../databuffer.h"

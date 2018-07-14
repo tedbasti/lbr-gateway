@@ -11,7 +11,7 @@
 #define TRANSMIT_BUFFER_SIZE 100
 #define RECEIVE_BUFFER_SIZE 1024
 
-#define DEBUG_ENABLE
+//#define DEBUG_ENABLE
 
 #ifdef DEBUG_ENABLE
 #define DEBUG_PRINT(x) USART::transmitChar(x)
