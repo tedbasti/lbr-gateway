@@ -7,6 +7,7 @@ namespace TimerConf {
 enum Values {
 	Prescale = 0x02,
 	PeriodLength = 0x0800,
+	Frequency = 2000,
 };
 }
 
