@@ -43,7 +43,7 @@ int main (void) {
 	DDRD |= (1<<PD7);
 	USART::init(LAYER2::transmitData);
 
-	Timer::setupTimer16bit(TimerConf::Prescale, TimerConf::Frequency);
+	Timer::setupTimer16bit();
 	sei();
 
 	while(1) {
