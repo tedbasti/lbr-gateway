@@ -23,8 +23,8 @@ static USART::callbackFunc _cbFunc;
 namespace MAIN {
 	typedef bool (*callbackFunc)(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
 	extern DataBuffer<TRANSMIT_BUFFER_SIZE> transmitBuffer;
-	extern callbackFunc onHandlingNeeded;
-	extern callbackFunc sendData;
+	extern callbackFunc volatile onHandlingNeeded;
+	extern callbackFunc volatile sendData;
 }
 
 namespace LAYER2 {
