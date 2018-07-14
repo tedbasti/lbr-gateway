@@ -9,7 +9,7 @@ namespace Timer {
 void setupTimer8bit();
 
 /* Compare match interrupt */
-void setupTimer16bit(uint16_t prescaler, uint16_t frequency);
+void setupTimer16bit();
 
 }
 
