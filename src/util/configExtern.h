@@ -13,6 +13,12 @@
 
 #define DEBUG_ENABLE
 
+#ifdef DEBUG_ENABLE
+#define DEBUG_PRINT(x) USART::transmitChar(x)
+#else
+#define DEBUG_PRINT(x)
+#endif
+
 #define MAX_PAYLOAD_LEN 5
 
 #include <stdint.h>

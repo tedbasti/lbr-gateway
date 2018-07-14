@@ -115,18 +115,14 @@ namespace LAYER2 {
 				//"Poor" version for end sequence
 				//Only check first bits
 				if ((seq & 0x3) == 0x3) {
-#ifdef DEBUG_ENABLE
-					USART::transmitChar('1');
-#endif
+					DEBUG_PRINT('1');
 					/*
 					 * Ensure that at least 5 bytes are within the buffer
 					 * receiver, sender, payloadlen, payload, checksum
 					 * TODO: Make 4 and 10 more generic (with some defines)
 					 */
 					if(buffer.getFill() > 3 && buffer.getFill() < 10) {
-#ifdef DEBUG_ENABLE
-						USART::transmitChar('2');
-#endif
+						DEBUG_PRINT('2');
 						//Get the checksum
 						uint8_t checksumReceived = buffer.popByte();
 						//Generate a frame
@@ -148,10 +144,10 @@ namespace LAYER2 {
 						checkSum.addBytes(f.payload, f.payloadLen);
 #ifdef DEBUG_ENABLE
 						if (checkSum.getDigest() == checksumReceived) {
-							USART::transmitChar('3');
+							DEBUG_PRINT('3');
 						}
 						if (f.receiver == CONFIG::senderId) {
-							USART::transmitChar('4');
+							DEBUG_PRINT('4');
 						}
 #endif
 
@@ -162,9 +158,7 @@ namespace LAYER2 {
 						 * TODO: Maybe switch names within the CONFIG stuff
 						 */
 						if (checkSum.getDigest() == checksumReceived && f.receiver == CONFIG::senderId) {
-#ifdef DEBUG_ENABLE
-							USART::transmitChar('5');
-#endif
+							DEBUG_PRINT('5');
 							higherLayer(f.payload, f.payloadLen);
 						}
 					}
@@ -177,9 +171,7 @@ namespace LAYER2 {
 		 * just start from the beginning.
 		 */
 		if (seq==startSeq) {
-#ifdef DEBUG_ENABLE
-			USART::transmitChar('0');
-#endif
+			DEBUG_PRINT('0');
 			buffer.clear();
 			byte=0;
 			bitsReceived=0;

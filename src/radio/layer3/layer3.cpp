@@ -45,23 +45,18 @@ namespace LAYER3 {
 				packet[0] = PACKET_CODE_ACK;
 				LAYER2::transmitData(CONFIG::receiverId, packet, 1);
 				USART::transmit(data+1, len-1);
-#ifdef DEBUG_ENABLE
-				USART::transmitChar('D');
-#endif
+				DEBUG_PRINT('D');
 				break;
 
 			case PACKET_CODE_ACK:
 				if (!MAIN::transmitBuffer.isEmpty()) {
 					MAIN::transmitBuffer.popFront();
 				}
-#ifdef DEBUG_ENABLE
-				USART::transmitChar('A');
-#endif
+				DEBUG_PRINT('A');
 				break;
-#ifdef DEBUG_ENABLE
 			default:
-				USART::transmitChar('X');
-#endif
+				DEBUG_PRINT('X');
+				break;
 		}
 	}
 }
