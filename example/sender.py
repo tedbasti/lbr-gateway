@@ -54,6 +54,15 @@ def main():
 	print "sending termination byte"
 	ser.write("\x00\x00\x00")
 	ser.flush()
+	"""
+	Makes only sense with reliable transport
+	"""
+	if (len(sys.argv) >= 5):
+		print "printing received Data:"
+		while True:
+			char = ser.read(1)
+			sys.stdout.write(char)
+			sys.stdout.flush()
 	ser.close()
 
 if __name__ == '__main__':
