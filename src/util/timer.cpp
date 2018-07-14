@@ -25,7 +25,7 @@ namespace Timer {
 		assert((1 <= TIMERCONF::OCRNX) && (TIMERCONF::OCRNX <= 65535));
 
 		// Set Output Compare Register for specified frequency
-		OCR1A = OCRNX;
+		OCR1A = TIMERCONF::OCRNX;
 
 		// Waveform Generation Mode 4 (CTC)
 		TCCR1B |= (1 << WGM12);
