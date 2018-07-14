@@ -19,7 +19,7 @@ void setupTimer8bit() {
  * so that the timer compare interrupt will occure with the specified
  * frequency.
  */
-void setupTimer16bit(uint8_t prescaler, uint16_t frequency) {
+void setupTimer16bit(uint16_t prescaler, uint16_t frequency) {
 	bool prescalerCorrect = ((prescaler == 1)
 			|| (prescaler == 8)
 			|| (prescaler == 64)
