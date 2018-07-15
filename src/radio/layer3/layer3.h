@@ -24,7 +24,9 @@
 namespace LAYER3 {
 
 	/**
-	 * This function handles the layer 3 specific timing actions.
+	 * This function handles the layer 3 timing in relation to the layer 1 base frequency.
+	 * It needs to be called on every overflow/compare interrupt of the timer/counter unit
+	 * which sets the layer 1 base frequency.
 	 */
 	void onTime();
 
@@ -34,12 +36,14 @@ namespace LAYER3 {
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &databuffer);
 
 	/**
-	 * This function creates the and sends the packets that needs to be sended.
+	 * This function creates and sends packets from the information in the DataBuffer object
+	 * which is passed in the function argument.
 	 */
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &databuffer);
 
 	/**
-	 * This function receives a packet from layer 2.
+	 * This function should be called from layer 2 and handles the packet passed in the
+	 * function argument.
 	 */
 	void receiveData(const uint8_t *data, uint8_t len);
 }

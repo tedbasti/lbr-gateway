@@ -15,6 +15,7 @@ namespace LAYER3 {
 
 	volatile static bool timerActivated = false;
 	volatile static uint16_t timerCounter = 0;
+	static uint8_t packetNumber = 0;
 
 	void onTime() {
 		if(timerActivated) {
@@ -31,11 +32,23 @@ namespace LAYER3 {
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
+		// Create packet
 		uint8_t packet[MAX_PAYLOAD_LEN];
+
+		// Create header
+		const uint8_t header = (packetNumber << 4) | ((uint8_t) PACKET_CODE_DATA);
+
+		// Create payload
 		const DataSet * payload = transmitbuffer.peekFront();
-		packet[0] = PACKET_CODE_DATA;
+
+		// Assemble packet
+		packet[0] = header;
 		memcpy(&packet[1], payload, CONFIG::payloadLen);
+
+		// Transmit packet
 		LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen + 1);
+
+		// Activate timer
 		timerActivated = true;
 	}
 
