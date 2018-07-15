@@ -95,15 +95,15 @@ class BasicTest(unittest.TestCase):
 #		message = self.serSnd.read(1)
 #		print "sender: " + message
 
-	def ntest_payloadLen01_layer3_SameLetter(self):
+	def test_payloadLen01_layer3_SameLetter(self):
 		print "test_payloadLen01_layer3_SameLetter"
 		val="aaaaaaaaaa"
-		self.sendBytesAndTestResult("\x01", val, val, "\x03")
+		self.sendBytesAndTestResult("\x01", val, val, "\x03", True)
 
-	def ntest_payloadLen01_layer3_much(self):
+	def test_payloadLen01_layer3_much(self):
 		print "test_payloadLen01_layer3_much"
 		val="abcde"
-		self.sendBytesAndTestResult("\x01", val, val, "\x03")
+		self.sendBytesAndTestResult("\x01", val, val, "\x03", True)
 
 	"""This test is to count how much packages
 		Will get lost, with some tests
