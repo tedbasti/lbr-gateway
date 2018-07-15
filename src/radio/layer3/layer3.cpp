@@ -33,17 +33,17 @@ namespace LAYER3 {
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
 		// Create packet
-		uint8_t packet[MAX_PAYLOAD_LEN];
+		uint8_t packet[CONFIG::payloadLen + 1];
 
 		// Create header
-		const uint8_t header = (packetNumber << 4) | ((uint8_t) PACKET_CODE_DATA);
+		const uint8_t HEADER = (packetNumber << 4) | ((uint8_t) PACKET_CODE_DATA);
 
 		// Create payload
-		const DataSet * payload = transmitbuffer.peekFront();
+		const DataSet * PAYLOAD = transmitbuffer.peekFront();
 
 		// Assemble packet
-		packet[0] = header;
-		memcpy(&packet[1], payload, CONFIG::payloadLen);
+		packet[0] = HEADER;
+		memcpy(&packet[1], PAYLOAD, CONFIG::payloadLen);
 
 		// Transmit packet
 		LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen + 1);
