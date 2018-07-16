@@ -19,6 +19,7 @@ def openSerial(port):
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
+	ser.timeout = 30
 	ser.open()
 	return ser
 
@@ -60,11 +61,13 @@ class BasicTest(unittest.TestCase):
 		self.serSnd.write(stringToWrite)
 		self.serSnd.flush()
 		time.sleep(1)
-		if not waitForAllPackages:
-			message = self.serRcv.read(self.serRcv.inWaiting())
-		else:
-			message = self.serRcv.read(len(stringToCheck))
+		#if not waitForAllPackages:
+		#	message = self.serRcv.read(self.serRcv.inWaiting())
+		#else:
+		message = self.serRcv.read(len(stringToCheck))
 		print message
+		#Just to delete everything from the buffer
+		self.serRcv.read(self.serRcv.inWaiting())
 		#At least one a must be sent!
 		self.assertNotEquals(message.find(stringToCheck), -1)
 			
