@@ -1,14 +1,15 @@
 #!/bin/bash
 
-HEX=${1:-main.hex}
-DEV=${ARDUINO_DEV:-$2}
+HEX=lbrgateway.hex
+DEV=${ARDUINO_DEV:-$1}
 
 # If you have a default device
 #DEV=${DEV:-/dev/arduino_r3}
 
 # Default baudrate for R3,
 # for Nano use 57600
-BAUD=${3:-115200}
+# for uno use 115200
+BAUD=${2:-57600}
 echo "### Flashing ${HEX} ###"
 
 make $HEX
