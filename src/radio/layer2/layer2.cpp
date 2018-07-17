@@ -7,13 +7,6 @@
 #include "../../usart/usart.h"
 #include "../../util/configExtern.h"
 
-namespace CONFIG {
-	extern uint8_t senderId;
-	extern uint8_t receiverId;
-	extern uint8_t receiverId;
-	extern uint8_t payloadLen;
-}
-
 namespace LAYER2 {
 	typedef void (*nextLayerFunction)(const uint8_t *data, uint8_t len);
 	nextLayerFunction volatile higherLayer = USART::transmit;
