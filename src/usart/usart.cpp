@@ -105,7 +105,7 @@ ISR(USART_RX_vect) {
 			CONFIG::payloadLen = buffer[3];
 			protocolType = buffer[4];
 			if ((CONFIG::layerConfig == LAYER2_CODE || CONFIG::layerConfig == LAYER3_CODE) &&
-					CONFIG::payloadLen > 0 && CONFIG::payloadLen <= MAX_PAYLOAD_LEN) {
+					CONFIG::payloadLen > 0 && CONFIG::payloadLen < 5) {
 				//TODO: More generic?
 				state = STATE_DIRECT_CONNECTION;
 				/*
