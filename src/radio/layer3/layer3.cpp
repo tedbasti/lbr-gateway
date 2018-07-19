@@ -54,6 +54,7 @@ namespace LAYER3 {
 
 		switch(PACKET_CODE) {
 			case PACKET_CODE_DATA:
+				DEBUG_PRINT('D');
 				// Create and send ACK
 				uint8_t packet[1];
 				packet[0] = (PACKET_NUMBER << 4) | ((uint8_t) PACKET_CODE_ACK);
@@ -65,25 +66,23 @@ namespace LAYER3 {
 					packetNumber = PACKET_NUMBER;
 					firstPacketReceived = true;
 					USART::transmit(data+1, len-1);
-					DEBUG_PRINT('D');
 				}
 				else {
 					// If data packet is not a duplicate
 					if(PACKET_NUMBER != packetNumber) {
 						USART::transmit(data+1, len-1);
 						packetNumber = PACKET_NUMBER;
-						DEBUG_PRINT('D');
 					}
 				}
 
 				break;
 
 			case PACKET_CODE_ACK:
+				DEBUG_PRINT('A');
 				if(PACKET_NUMBER == packetNumber) {
 					packetNumber = (packetNumber + 1)%2;
 					if(!MAIN::transmitBuffer.isEmpty()) {
 						MAIN::transmitBuffer.popFront();
-						DEBUG_PRINT('A');
 					}
 				}
 				break;
