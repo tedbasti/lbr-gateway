@@ -50,7 +50,7 @@ namespace LAYER3 {
 	void receiveData(const uint8_t *data, uint8_t len) {
 		// Reading header
 		const uint8_t PACKET_NUMBER = (data[0] >> 4);
-		const uint8_t PACKET_CODE = 0b00001111 & data[0];
+		const uint8_t PACKET_CODE = 0x0F & data[0];	// 0x0F = 00001111
 
 		switch(PACKET_CODE) {
 			case PACKET_CODE_DATA:
