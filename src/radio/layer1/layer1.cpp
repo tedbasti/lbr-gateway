@@ -35,6 +35,9 @@ namespace LAYER1 {
 	}
 
 	void onTimeReceive() {
+		if(MAIN::receiveBuffer.isFull()) {
+			return;
+		}
 		uint8_t dataBit = DATA_IN ? 1 : 0;
 		MAIN::receiveBuffer.pushBit(dataBit);
 	}
