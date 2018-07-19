@@ -15,7 +15,7 @@
 
 #define FOSC 16000000				// System clock Speed
 #define BAUD 9600					// Baud rate
-#define UBRR int(FOSC/(16*BAUD)-0.5)
+#define UBRR int(FOSC/16/BAUD-0.5)
 
 
 static USART::callbackFunc _cbFunc;
