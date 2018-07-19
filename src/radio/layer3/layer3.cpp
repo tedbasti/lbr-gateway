@@ -62,6 +62,7 @@ namespace LAYER3 {
 
 				// If this is the first data packet which the slave is receiving.
 				if(firstPacketReceived == false) {
+					packetNumber = PACKET_NUMBER;
 					firstPacketReceived = true;
 					USART::transmit(data+1, len-1);
 					DEBUG_PRINT('D');
