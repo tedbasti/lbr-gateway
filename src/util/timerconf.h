@@ -3,10 +3,21 @@
 
 #include <stdint.h>
 
-#define FOSC_DEF 16000000	// Quartz oscillator frequency [Hz]
-#define PRESCALER_DEF 256	// Prescaler
-#define FOC_DEF 500		// Timer Compare Interrupt frequency [Hz]
-#define OCRNX_DEF uint16_t(FOSC_DEF/PRESCALER_DEF/FOC_DEF - 1)	// Output Compare Register Value
+// Quartz oscillator frequency [Hz]
+#define FOSC_DEF 16000000
+
+// Prescaler
+#define PRESCALER_DEF 256
+
+/**
+ * Layer 1 sampling rate [Hz]
+ * TX radio module data rate: 8000 bps
+ * RX radio module data rate: 4800 bps
+ */
+#define FOC_DEF 4000
+
+// Layer1 Timer output compare register value
+#define OCRNX_DEF uint16_t(FOSC_DEF/PRESCALER_DEF/FOC_DEF - 1)
 
 
 namespace TIMERCONF {
