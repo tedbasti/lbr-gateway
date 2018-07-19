@@ -100,7 +100,7 @@ class BasicTest(unittest.TestCase):
 
 	def test_payloadLen01_layer3_SameLetter(self):
 		print "test_payloadLen01_layer3_SameLetter"
-		val="aaaaaaaaaa"
+		val="aaaaa"
 		self.sendBytesAndTestResult("\x01", val, val, "\x03", True)
 
 	def test_payloadLen01_layer3_much(self):
