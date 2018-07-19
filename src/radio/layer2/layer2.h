@@ -13,6 +13,8 @@
 
 #ifndef SRC_RADIO_LAYER2_LAYER2_H_
 #define SRC_RADIO_LAYER2_LAYER2_H_
+
+#define MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE 256
 #include <stdint.h>
 #include "../databuffer.h"
 #include "../../util/configExtern.h"

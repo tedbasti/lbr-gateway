@@ -29,7 +29,7 @@ namespace LAYER3 {
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
-		return ((transmitbuffer.isEmpty() == false) && (timerActivated == false));
+		return (LAYER2::onHandlingNeeded(transmitbuffer) && (timerActivated == false));
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {

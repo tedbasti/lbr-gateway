@@ -247,7 +247,7 @@ namespace LAYER2 {
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
-		return !transmitBuffer.isEmpty();
+		return (LAYER1::getTXBufferSpace() > MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE) && (!transmitBuffer.isEmpty());
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {

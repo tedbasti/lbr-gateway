@@ -39,4 +39,7 @@ namespace LAYER1 {
 		MAIN::receiveBuffer.pushBit(dataBit);
 	}
 
+	uint16_t getTXBufferSpace() {
+		return ringBuf.remainingSpace();
+	}
 }

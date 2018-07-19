@@ -9,6 +9,7 @@
 #define SRC_RADIO_LAYER1_LAYER1_H_
 
 #include <avr/io.h>
+#include <stdint.h>
 
 namespace LAYER1 {
 
@@ -24,6 +25,8 @@ bool sendBit(bool bit);
 void onTimeTransmit();
 
 void onTimeReceive();
+
+uint16_t getTXBufferSpace();
 
 }
 #endif /* SRC_RADIO_LAYER1_LAYER1_H_ */
