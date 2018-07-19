@@ -15,7 +15,7 @@ receiverId = "\x01"
 def openSerial(port):
 	#Some configuration for the serial port
 	ser = serial.Serial()
-	ser.baudrate = 57600
+	ser.baudrate = 9600
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
@@ -32,10 +32,10 @@ def initializePort(ser, payloadLen, sender, receiver, layerVersion="\x02"):
 	ser.write(layerVersion)
 	#payloadlen
 	ser.write(payloadLen)
-	#USART Protocol type: No one reads this field at the moment 
+	#USART Protocol type: No one reads this field at the moment
 	ser.write("\x01")
-	
-	
+
+
 class BasicTest(unittest.TestCase):
 	def setUp(self):
 		#Open sender and receiver
@@ -48,16 +48,16 @@ class BasicTest(unittest.TestCase):
 	def tearDown(self):
 		self.serRcv.close()
 		self.serSnd.close()
-	
+
 	def initialize(self, payloadLen, layerVersion="\x02"):
 		initializePort(self.serSnd, payloadLen, senderId, receiverId, layerVersion)
 		initializePort(self.serRcv, payloadLen, receiverId, senderId, layerVersion)
-		
+
 		time.sleep(0.5)
-	
+
 	def sendBytesAndTestResult(self, payloadLen, stringToWrite, stringToCheck, layerVersion="\x02", waitForAllPackages=False):
 		self.initialize(payloadLen, layerVersion)
-		
+
 		self.serSnd.write(stringToWrite)
 		self.serSnd.flush()
 		time.sleep(1)
@@ -70,9 +70,9 @@ class BasicTest(unittest.TestCase):
 		self.serRcv.read(self.serRcv.inWaiting())
 		#At least one a must be sent!
 		self.assertNotEquals(message.find(stringToCheck), -1)
-			
+
 	"""
-		Test some simple a chars with 
+		Test some simple a chars with
 		payloadLen 1.
 	"""
 	def test_payloadLen01(self):

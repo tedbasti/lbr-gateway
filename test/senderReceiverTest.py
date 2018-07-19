@@ -12,7 +12,7 @@ senderPort = '/dev/ttyUSB0'
 def openSerial(port):
 	#Some configuration for the serial port
 	ser = serial.Serial()
-	ser.baudrate = 57600
+	ser.baudrate = 9600
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
@@ -32,7 +32,7 @@ def initializeSender(ser, payloadLen):
 	ser.write(payloadLen)
 	#USART Protocol type: isnt read at the moment
 	ser.write("\x01")
-	
+
 class BasicTest(unittest.TestCase):
 	def setUp(self):
 		#Open sender and receiver
@@ -42,11 +42,11 @@ class BasicTest(unittest.TestCase):
 
 	def tearDown(self):
 		self.serSnd.close()
-	
+
 	def initialize(self, payloadLen):
 		initializeSender(self.serSnd, payloadLen)
 		time.sleep(0.5)
-	
+
 	"""This test is to count how much packages
 		Will get lost, with some tests
 		This will use the sender and receiver as one!
@@ -56,7 +56,7 @@ class BasicTest(unittest.TestCase):
 	def test_sendMuchPackages(self):
 		print "Starting sendMuchPackages:"
 		self.initialize("\x01")
-		
+
 		self.serSnd.write("aaaaaaaaaa")
 		self.serSnd.flush()
 		time.sleep(1)

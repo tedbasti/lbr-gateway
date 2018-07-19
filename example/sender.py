@@ -11,7 +11,7 @@ receiverId = "\x01"
 def openSerial(port):
 	#Some configuration for the serial port
 	ser = serial.Serial()
-	ser.baudrate = 57600
+	ser.baudrate = 9600
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
@@ -27,7 +27,7 @@ def initializePort(ser, payloadLen, sender, receiver, layerVersion="\x02"):
 	ser.write(layerVersion)
 	#payloadlen
 	ser.write(payloadLen)
-	#USART Protocol type: No one reads this field at the moment 
+	#USART Protocol type: No one reads this field at the moment
 	ser.write("\x01")
 
 def main():
@@ -39,7 +39,7 @@ def main():
 	if (len(sys.argv) >= 4):
 		layerVersion = "\x03"
 		print "Use reliable transport"
-		
+
 	ser = openSerial(sys.argv[1])
 	time.sleep(2)
 	initializePort(ser, payloadLen="\x01", sender=senderId, receiver=receiverId, layerVersion=layerVersion)

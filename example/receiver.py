@@ -11,7 +11,7 @@ receiverId="\x00"
 def openSerial(port):
 	#Some configuration for the serial port
 	ser = serial.Serial()
-	ser.baudrate = 57600
+	ser.baudrate = 9600
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
@@ -27,14 +27,14 @@ def initializePort(ser, payloadLen, sender, receiver, layerVersion="\x02"):
 	ser.write(layerVersion)
 	#payloadlen
 	ser.write(payloadLen)
-	#USART Protocol type: No one reads this field at the moment 
+	#USART Protocol type: No one reads this field at the moment
 	ser.write("\x01")
 
 def main():
 	if (len(sys.argv) < 2):
 		print "sender.py <port>"
 		sys.exit(1)
-		
+
 	layerVersion = "\x02"
 	if (len(sys.argv) >= 3):
 		layerVersion = "\x03"
