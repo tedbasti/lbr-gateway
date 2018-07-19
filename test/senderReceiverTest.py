@@ -19,7 +19,7 @@ def openSerial(port):
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
-	ser.timeout = 30
+	ser.timeout = 5
 	ser.open()
 	return ser
 
