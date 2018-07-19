@@ -14,7 +14,7 @@
  * TX radio module data rate: 8000 bps
  * RX radio module data rate: 4800 bps
  */
-#define FOC_DEF 4000
+#define FOC_DEF 2000
 
 // Layer1 Timer output compare register value
 #define OCRNX_DEF uint16_t(FOSC_DEF/PRESCALER_DEF/FOC_DEF - 1)
