@@ -57,7 +57,7 @@ class BasicTest(unittest.TestCase):
 		print "Starting sendMuchPackages:"
 		self.initialize("\x01")
 
-		self.serSnd.write("aaaaaaaaaa")
+		self.serSnd.write("1234567890")
 		self.serSnd.flush()
 		time.sleep(1)
 		message = self.serSnd.read(self.serSnd.inWaiting())

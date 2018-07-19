@@ -81,15 +81,15 @@ class BasicTest(unittest.TestCase):
 
 	def test_payloadLen02(self):
 		print "test_payloadLen02"
-		self.sendBytesAndTestResult("\x02", "aaaa", "aa")
+		self.sendBytesAndTestResult("\x02", "abab", "ab")
 
 	def test_payloadLen03(self):
 		print "test_payloadLen03"
-		self.sendBytesAndTestResult("\x03", "aaaaaa", "aaa")
+		self.sendBytesAndTestResult("\x03", "abcabc", "abc")
 
 	def test_payloadLen04(self):
 		print "test_payloadLen04"
-		self.sendBytesAndTestResult("\x04", "aaaaaaaaaaaa", "aaaa")
+		self.sendBytesAndTestResult("\x04", "abcdabcdaaaa", "abcd")
 
 	def test_payloadLen01_layer3(self):
 		print "test_payloadLen01_layer3"
