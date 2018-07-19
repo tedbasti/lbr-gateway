@@ -1,9 +1,3 @@
-/*
- * layer1.cpp
- *
- *  Created on: Jun 23, 2018
- *      Author: ted
- */
 
 #include "../layer1/layer1.h"
 #include "../layer2/layer2.h"
@@ -17,28 +11,29 @@ namespace MAIN {
 }
 
 namespace LAYER1 {
-static BitRingBuffer<RECEIVE_BUFFER_SIZE> ringBuf;
+	static BitRingBuffer<RECEIVE_BUFFER_SIZE> ringBuf;
 
-void sendBit(bool bit) {
-	ringBuf.pushBit(bit);
-}
-
-void init() {
-
-}
-
-void onTimeTransmit() {
-	if (ringBuf.isEmpty()) {
-		return;
+	bool sendBit(bool bit) {
+		ringBuf.pushBit(bit);
+		return true;
 	}
 
-	bool outBit = ringBuf.popBit();
-	SET_P(DATA_OUT_PORT, DATA_OUT_PIN, outBit);
-}
+	void init() {
 
-void onTimeReceive() {
-	uint8_t dataBit = DATA_IN ? 1 : 0;
-	MAIN::receiveBuffer.pushBit(dataBit);
-}
+	}
+
+	void onTimeTransmit() {
+		if (ringBuf.isEmpty()) {
+			return;
+		}
+
+		bool outBit = ringBuf.popBit();
+		SET_P(DATA_OUT_PORT, DATA_OUT_PIN, outBit);
+	}
+
+	void onTimeReceive() {
+		uint8_t dataBit = DATA_IN ? 1 : 0;
+		MAIN::receiveBuffer.pushBit(dataBit);
+	}
 
 }

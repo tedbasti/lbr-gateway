@@ -19,7 +19,7 @@ namespace LAYER1 {
 
 void init();
 
-void sendBit(bool bit);
+bool sendBit(bool bit);
 
 void onTimeTransmit();
 
