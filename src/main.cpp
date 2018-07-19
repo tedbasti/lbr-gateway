@@ -19,15 +19,10 @@ ISR (TIMER0_OVF_vect) {
 
 // timer1 (16bit) compare match interrupt
 ISR (TIMER1_COMPA_vect) {
-	if (CONFIG::senderId == 0) {
-		LAYER1::onTimeTransmit();
-		LAYER1::onTimeReceive();
-	} else {
-		LAYER1::onTimeReceive();
-		LAYER1::onTimeTransmit();
+	LAYER1::onTimeReceive();
+	if (LAYER1::onTimeTransmit()) {
+		LAYER3::onTime();
 	}
-
-	LAYER3::onTime();
 }
 
 namespace MAIN {

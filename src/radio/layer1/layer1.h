@@ -11,6 +11,8 @@
 #include <avr/io.h>
 #include <stdint.h>
 
+#define MAX_OFFSET_COUNTER 20
+
 namespace LAYER1 {
 
 /* Port and pin connected to transmitter module DATA */
@@ -22,7 +24,7 @@ void init();
 
 bool sendBit(bool bit);
 
-void onTimeTransmit();
+bool onTimeTransmit();
 
 void onTimeReceive();
 
