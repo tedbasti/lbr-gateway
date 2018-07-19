@@ -24,10 +24,10 @@
 #include <stdint.h>
 
 namespace CONFIG {
-	extern uint8_t senderId;
-	extern uint8_t receiverId;
-	extern uint8_t layerConfig;
-	extern uint8_t payloadLen;
+	extern volatile uint8_t senderId;
+	extern volatile uint8_t receiverId;
+	extern volatile uint8_t layerConfig;
+	extern volatile uint8_t payloadLen;
 }
 
 #endif /* SRC_UTIL_CONFIGEXTERN_H_ */

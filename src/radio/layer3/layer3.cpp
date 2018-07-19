@@ -34,7 +34,7 @@ namespace LAYER3 {
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
 		// Create packet
-		uint8_t packet[MAX_PAYLOAD_LEN];
+		uint8_t packet[MAX_PAYLOAD_LEN + 1];
 		const uint8_t HEADER = (packetNumber << 4) | ((uint8_t) PACKET_CODE_DATA);
 		const DataSet * PAYLOAD = transmitbuffer.peekFront();
 		packet[0] = HEADER;
