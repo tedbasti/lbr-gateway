@@ -6,6 +6,8 @@
 #include "../../util/util.h"
 #include "../../util/configExtern.h"
 
+#define START_SEQUENCE 0xE3
+
 namespace MAIN {
 	extern BitRingBuffer<RECEIVE_BUFFER_SIZE> receiveBuffer;
 }
@@ -43,13 +45,27 @@ namespace LAYER1 {
 	}
 
 	void onTimeReceive() {
+		static uint8_t byte = 0;
+		static bool synchronizationActive=false;
+		static uint8_t synchronizeCounter = 0;
+
 		offsetCounter++;
 		if (offsetCounter == receiveOffset) {
 			if(MAIN::receiveBuffer.isFull()) {
 				return;
 			}
-			uint8_t dataBit = DATA_IN ? 1 : 0;
+			bool dataBit = DATA_IN ? 1 : 0;
 			MAIN::receiveBuffer.pushBit(dataBit);
+			//CHeck if its start seq
+			byte = (byte<<1) | dataBit;
+			if (byte == START_SEQUENCE) {
+				synchronizationActive = true;
+				synchronizeCounter=0;
+			}
+		}
+
+		if (synchronizationActive) {
+
 		}
 	}
 
