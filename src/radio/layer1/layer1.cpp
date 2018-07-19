@@ -14,6 +14,9 @@ namespace LAYER1 {
 	static BitRingBuffer<RECEIVE_BUFFER_SIZE> ringBuf;
 
 	bool sendBit(bool bit) {
+		if(ringBuf.isFull()) {
+			return false;
+		}
 		ringBuf.pushBit(bit);
 		return true;
 	}
