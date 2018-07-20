@@ -227,7 +227,7 @@ namespace LAYER2 {
 		ckSum.addBytes((const unsigned char*) data, len);
 		/* Send warmup bytes; these are apparently necessary
 		 * for a reliable transmission */
-		pushByteToLayer1_Encoded(0xF0);
+		//pushByteToLayer1_Encoded(0xF0);
 		//Send start sequence
 		pushByteToLayer1(startSeq);
 		//Send the Receiver
@@ -243,7 +243,8 @@ namespace LAYER2 {
 		pushBitToLayer1(1);
 		pushBitToLayer1(1);
 		//Just a zero to deactivate sending
-		pushBitToLayer1(0);
+		//pushBitToLayer1(0);
+		pushByteToLayer1(0x00);
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
