@@ -14,8 +14,11 @@ namespace MAIN {
 
 namespace LAYER1 {
 	static BitRingBuffer<RECEIVE_BUFFER_SIZE> ringBuf;
-	static volatile uint8_t offsetCounter = 0;
-	static volatile uint8_t receiveOffset = 20;
+
+	static volatile int8_t sendOffsetCounter = 0;
+	static volatile uint8_t sendOffset = 20;
+	static volatile int8_t receiveOffsetCounter = 0;
+	static volatile uint8_t receiveOffset = 10;
 
 	bool sendBit(bool bit) {
 		if(ringBuf.isFull()) {
@@ -30,8 +33,8 @@ namespace LAYER1 {
 	}
 
 	bool onTimeTransmit() {
-		if (offsetCounter == MAX_OFFSET_COUNTER) {
-			offsetCounter=0;
+		if (sendOffsetCounter == MAX_OFFSET_COUNTER) {
+			sendOffsetCounter = 0;
 			if (ringBuf.isEmpty()) {
 				return true;
 			}
@@ -47,25 +50,46 @@ namespace LAYER1 {
 	void onTimeReceive() {
 		static uint8_t byte = 0;
 		static bool synchronizationActive=false;
-		static uint8_t synchronizeCounter = 0;
+		static uint8_t synchronizeCounter;
+		static bool currentBit;
+		static bool dataBit;
 
-		offsetCounter++;
-		if (offsetCounter == receiveOffset) {
+		if (receiveOffsetCounter == receiveOffset) {
 			if(MAIN::receiveBuffer.isFull()) {
 				return;
 			}
-			bool dataBit = DATA_IN ? 1 : 0;
+			dataBit = DATA_IN ? 1 : 0;
 			MAIN::receiveBuffer.pushBit(dataBit);
 			//CHeck if its start seq
 			byte = (byte<<1) | dataBit;
 			if (byte == START_SEQUENCE) {
 				synchronizationActive = true;
+				currentBit = dataBit;
 				synchronizeCounter=0;
 			}
 		}
 
 		if (synchronizationActive) {
+			if((dataBit = DATA_IN) != currentBit) {
+				synchronizationActive = false;
+				if(receiveOffsetCounter == receiveOffset) {
+					receiveOffsetCounter = -20;
+				}
+				else {
+					receiveOffsetCounter = 0;
+				}
+			}
 
+			if(synchronizeCounter >= 50) {
+				synchronizationActive = false;
+			}
+
+			++synchronizeCounter;
+		}
+
+
+		if(++receiveOffsetCounter == 20) {
+			receiveOffsetCounter = 0;
 		}
 	}
 
