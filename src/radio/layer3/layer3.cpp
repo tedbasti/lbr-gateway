@@ -59,7 +59,9 @@ namespace LAYER3 {
 				uint8_t packet[1];
 				packet[0] = (PACKET_NUMBER << 4) | ((uint8_t) PACKET_CODE_ACK);
 				_delay_ms(DELAY_ACK_PACKET_MS);
-				LAYER2::transmitData(CONFIG::receiverId, packet, 1);
+				if(LAYER2::sendBufferEnoughSpace()) {
+					LAYER2::transmitData(CONFIG::receiverId, packet, 1);
+				}
 
 				// If this is the first data packet which the slave is receiving.
 				if(firstPacketReceived == false) {
