@@ -34,6 +34,7 @@ namespace LAYER1 {
 
 	bool onTimeTransmit() {
 		++sendOffsetCounter;
+
 		if (sendOffsetCounter == MAX_OFFSET_COUNTER) {
 			sendOffsetCounter = 0;
 			if (ringBuf.isEmpty()) {
@@ -45,10 +46,6 @@ namespace LAYER1 {
 			return true;
 		} else {
 			return false;
-		}
-
-		if(sendOffsetCounter == MAX_OFFSET_COUNTER) {
-			sendOffsetCounter = 0;
 		}
 	}
 
