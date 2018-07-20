@@ -57,6 +57,7 @@ def main():
 	"""
 	Makes only sense with reliable transport
 	"""
+	"""
 	if (len(sys.argv) >= 5):
 		print "printing received Data:"
 		while True:
@@ -64,6 +65,11 @@ def main():
 			sys.stdout.write(char)
 			sys.stdout.flush()
 	ser.close()
+	"""
+	while True:
+			char = ser.read(1)
+			sys.stdout.write(char)
+			sys.stdout.flush()
 
 if __name__ == '__main__':
     main()

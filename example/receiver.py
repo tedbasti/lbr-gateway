@@ -49,6 +49,16 @@ def main():
 		char = ser.read(1)
 		sys.stdout.write(char)
 		sys.stdout.flush()
+
+	time.sleep(5)
+	ser.write('ABCDEFG')
+	ser.flush()
+
+	while (char != "\x00"):
+		char = ser.read(1)
+		sys.stdout.write(char)
+		sys.stdout.flush()
+
 	print ""
 	ser.close()
 
