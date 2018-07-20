@@ -33,6 +33,7 @@ namespace LAYER1 {
 	}
 
 	bool onTimeTransmit() {
+		++sendOffsetCounter;
 		if (sendOffsetCounter == MAX_OFFSET_COUNTER) {
 			sendOffsetCounter = 0;
 			if (ringBuf.isEmpty()) {
@@ -46,7 +47,7 @@ namespace LAYER1 {
 			return false;
 		}
 
-		if(++sendOffsetCounter == MAX_OFFSET_COUNTER) {
+		if(sendOffsetCounter == MAX_OFFSET_COUNTER) {
 			sendOffsetCounter = 0;
 		}
 	}
@@ -57,7 +58,7 @@ namespace LAYER1 {
 		static uint8_t synchronizeCounter;
 		static bool currentBit;
 		static bool dataBit;
-
+		++receiveOffsetCounter;
 		if (receiveOffsetCounter == receiveOffset) {
 			if(MAIN::receiveBuffer.isFull()) {
 				return;
@@ -91,8 +92,7 @@ namespace LAYER1 {
 			++synchronizeCounter;
 		}
 
-
-		if(++receiveOffsetCounter == MAX_OFFSET_COUNTER) {
+		if(receiveOffsetCounter == MAX_OFFSET_COUNTER) {
 			receiveOffsetCounter = 0;
 		}
 	}
