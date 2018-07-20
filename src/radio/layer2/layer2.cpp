@@ -247,12 +247,16 @@ namespace LAYER2 {
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
-		return (LAYER1::getTXBufferSpace() > MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE) && (!transmitBuffer.isEmpty());
+		return (sendBufferEnoughSpace()) && (!transmitBuffer.isEmpty());
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
 		DataSet dSet = transmitBuffer.popFront();
 		transmitData(CONFIG::receiverId, dSet.payload, CONFIG::payloadLen);
 		return true;
+	}
+
+	bool sendBufferEnoughSpace() {
+		return (LAYER1::getTXBufferSpace() > MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE);
 	}
 }

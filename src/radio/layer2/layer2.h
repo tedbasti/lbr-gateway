@@ -52,6 +52,8 @@ namespace LAYER2 {
 	 * Sends the data, from the transmitbuffer
 	 */
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
+
+	bool sendBufferEnoughSpace();
 }
 
 
