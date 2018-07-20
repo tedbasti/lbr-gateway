@@ -5,6 +5,7 @@
 #include "../bitringbuffer.h"
 #include "../../util/util.h"
 #include "../../util/configExtern.h"
+#include "../../usart/usart.h"
 
 #define START_SEQUENCE 0xE3
 
@@ -22,6 +23,7 @@ namespace LAYER1 {
 
 	bool sendBit(bool bit) {
 		if(ringBuf.isFull()) {
+			DEBUG_PRINT('S');
 			return false;
 		}
 		ringBuf.pushBit(bit);
@@ -58,6 +60,7 @@ namespace LAYER1 {
 		++receiveOffsetCounter;
 		if (receiveOffsetCounter == receiveOffset) {
 			if(MAIN::receiveBuffer.isFull()) {
+				DEBUG_PRINT('R');
 				return;
 			}
 			dataBit = DATA_IN ? 1 : 0;
