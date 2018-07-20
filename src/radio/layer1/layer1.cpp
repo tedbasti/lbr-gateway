@@ -45,6 +45,10 @@ namespace LAYER1 {
 		} else {
 			return false;
 		}
+
+		if(++sendOffsetCounter == MAX_OFFSET_COUNTER) {
+			sendOffsetCounter = 0;
+		}
 	}
 
 	void onTimeReceive() {
@@ -88,7 +92,7 @@ namespace LAYER1 {
 		}
 
 
-		if(++receiveOffsetCounter == 20) {
+		if(++receiveOffsetCounter == MAX_OFFSET_COUNTER) {
 			receiveOffsetCounter = 0;
 		}
 	}
