@@ -65,7 +65,7 @@ public:
 		assert(!isEmpty());
 		space += 1;
 		DataSet dataset = dataSetArray[readIndex];
-		readIndex = (readIndex + 1)&Size;
+		readIndex = (readIndex + 1)%Size;
 		return dataset;
 	}
 
