@@ -5,7 +5,9 @@
  *      Author: rambonator
  */
 
+#include <stdint>
 #include "io.h"
+#include "ioconfig.h"
 
 
 namespace IO {
@@ -16,5 +18,9 @@ namespace IO {
 		else {
 			port &= ~(1 << pin);
 		}
+	}
+
+	void rxEnable() {
+		setPin(RX_PORT, RX_ENABLE_PIN, 1);
 	}
 }
