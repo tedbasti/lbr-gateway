@@ -24,6 +24,17 @@ namespace IO {
 		return (PIND & (1 << pin));
 	}
 
+	void init() {
+		// Initialize RX data direction register.
+		RX_DDR &= (0 << RX_DATA_PIN);
+
+		// Initialize TX data direction register.
+		TX_DDR |= (1 << TX_ENABLE_PIN) | (1 << TX_DATA_PIN);
+
+		// Initialize LED data direction register.
+		LED_DDR |= (1 << LED_TX_PIN) | (1 << LED_ERROR_PIN);
+	}
+
 	bool rxRead(uint8_t port, uitn8_t pin) {
 		return readPin(RX_PORT, RX_DATA_PIN);
 	}

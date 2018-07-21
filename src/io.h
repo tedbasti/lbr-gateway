@@ -17,6 +17,8 @@ namespace IO {
 
 	bool static readPin(uint8_t port, uint8_t pin);
 
+	void init();
+
 	bool rxRead(uint8_t port, uint8_t pin);
 
 	void txEnable();
