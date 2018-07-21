@@ -59,7 +59,7 @@ class BasicTest(unittest.TestCase):
 
 		self.serSnd.write("1234567890")
 		self.serSnd.flush()
-		time.sleep(1)
+		time.sleep(3)
 		message = self.serSnd.read(self.serSnd.inWaiting())
 		print message
 
