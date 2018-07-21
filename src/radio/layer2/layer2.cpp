@@ -1,4 +1,5 @@
 
+#include <util/delay.h>
 #include "layer2.h"
 #include "../layer1/layer1.h"
 #include "frame.h"
@@ -6,6 +7,7 @@
 #include "bytebuffer.h"
 #include "../../usart/usart.h"
 #include "../../util/configExtern.h"
+#include "../../util/io.h"
 
 namespace LAYER2 {
 	typedef void (*nextLayerFunction)(const uint8_t *data, uint8_t len);
@@ -220,15 +222,21 @@ namespace LAYER2 {
 	}
 
 	void transmitData(uint8_t receiverID, uint8_t* data, const uint8_t len){
+		// Create frame
 		ChecksumAlgo ckSum;
 		ckSum.addByte(receiverID);
 		ckSum.addByte(CONFIG::senderId);
 		ckSum.addByte(len);
 		ckSum.addBytes((const unsigned char*) data, len);
-		/* Send warmup bytes; these are apparently necessary
-		 * for a reliable transmission */
-		//pushByteToLayer1_Encoded(0xF0);
-		//Send start sequence
+
+		// Enable TX radio module VCC and wait one us
+		IO::txVCCEnable();
+		_delay_us(1);
+
+		// Send two bits for synchronisazion
+		pushBitToLayer1(1);
+		pushBitToLayer1(0);
+
 		pushByteToLayer1(startSeq);
 		//Send the Receiver
 		pushByteToLayer1_Encoded(receiverID);

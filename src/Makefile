@@ -9,7 +9,7 @@ all: subdirs $(HEX)
 	avr-objcopy -O ihex -R .eeprom $*.bin $*.hex
 	
 lbrgateway.bin : $(SUBDIRS) main.cpp
-	avr-g++ $(GPP_FLAGS) main.cpp $(SUBLIBS) -o lbrgateway.bin
+	avr-g++ $(GPP_FLAGS) main.cpp util/io.o $(SUBLIBS) -o lbrgateway.bin
 
 include $(WORKING_DIR)/subdirs.mk
 

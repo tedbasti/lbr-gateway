@@ -17,7 +17,7 @@
 
 #define TX_DDR DDRB
 #define TX_PORT PORTB
-#define TX_ENABLE_PIN PB4
+#define TX_VCC_PIN PB4
 #define TX_DATA_PIN PB5
 
 #define LED_DDR DDRD

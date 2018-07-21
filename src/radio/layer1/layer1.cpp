@@ -3,7 +3,6 @@
 #include "../layer2/layer2.h"
 
 #include "../bitringbuffer.h"
-#include "../../util/util.h"
 #include "../../util/configExtern.h"
 #include "../../usart/usart.h"
 #include "../../util/io.h"
@@ -40,11 +39,11 @@ namespace LAYER1 {
 		if (sendOffsetCounter == MAX_OFFSET_COUNTER) {
 			sendOffsetCounter = 0;
 			if (ringBuf.isEmpty()) {
+				IO::txVCCDisable();
 				return true;
 			}
 
 			bool outBit = ringBuf.popBit();
-			//SET_P(DATA_OUT_PORT, DATA_OUT_PIN, outBit);
 			IO::txWrite(outBit);
 			return true;
 		} else {
@@ -62,8 +61,7 @@ namespace LAYER1 {
 				DEBUG_PRINT('R');
 				return;
 			}
-			//dataBit = DATA_IN ? 1 : 0;
-//			dataBit = IO::rxRead();
+			dataBit = IO::rxRead();
 			MAIN::receiveBuffer.pushBit(dataBit);
 			currentBit = dataBit;
 			synchronizationActive=true;

@@ -6,6 +6,7 @@
 #include "util/timer.h"
 #include "util/timerconf.h"
 #include "util/configExtern.h"
+#include "util/io.h"
 
 #include "radio/layer2/layer2.h"
 #include "radio/layer1/layer1.h"
@@ -40,9 +41,7 @@ namespace MAIN {
 }
 
 int main (void) {
-	/* Ports D7 as output */
-	//DDRD |= (1<<PD7);
-	DDRB |= (1 << PB5);
+	IO::init();
 	USART::init(LAYER2::transmitData);
 
 	Timer::setupTimer16bit();

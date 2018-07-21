@@ -22,7 +22,7 @@ namespace IO {
 		RX_DDR &= (0 << RX_DATA_PIN);
 
 		// Initialize TX data direction register.
-		TX_DDR |= (1 << TX_ENABLE_PIN) | (1 << TX_DATA_PIN);
+		TX_DDR |= (1 << TX_VCC_PIN) | (1 << TX_DATA_PIN);
 
 		// Initialize LED data direction register.
 		LED_DDR |= (1 << LED_TX_PIN) | (1 << LED_ERROR_PIN);
@@ -33,11 +33,11 @@ namespace IO {
 	}
 
 	void txVCCEnable() {
-		SET_P(TX_PORT, TX_ENABLE_PIN, 1);
+		SET_P(TX_PORT, TX_VCC_PIN, 1);
 	}
 
 	void txVCCDisable() {
-		SET_P(TX_PORT, TX_ENABLE_PIN, 0);
+		SET_P(TX_PORT, TX_VCC_PIN, 0);
 	}
 
 	void txWrite(bool value) {
