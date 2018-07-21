@@ -33,14 +33,6 @@ public:
 		return data;
 	}
 
-	const DataSet * peekBack() {
-		if(isEmpty()) {
-			return nullptr;
-		}
-		const DataSet * data = &dataSetArray[(writeIndex-1)%Size];
-		return data;
-	}
-
 	bool isEmpty() {
 		return (space == Size);
 	}
@@ -55,18 +47,6 @@ public:
 
 	Buffersize spaceRemaining() {
 		return space;
-	}
-
-	bool pushFront(DataSet &dataset) {
-		if(isFull()) {
-			return false;
-		}
-		readIndex = (readIndex - 1)%Size;
-		DataSet datasetDest;
-		memcpy(&datasetDest, &dataset, sizeof dataset);
-		dataSetArray[readIndex] = datasetDest;
-		space -= 1;
-		return true;
 	}
 
 	bool pushBack(DataSet &dataset) {
@@ -84,13 +64,9 @@ public:
 	DataSet popFront() {
 		assert(!isEmpty());
 		space += 1;
-		return dataSetArray[readIndex++];
-	}
-
-	DataSet popBack() {
-		assert(!isEmpty());
-		space += 1;
-		return dataSetArray[--writeIndex];
+		DataSet dataset = dataSetArray[readIndex];
+		readIndex = (readIndex + 1)&Size;
+		return dataset;
 	}
 
 
