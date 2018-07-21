@@ -20,9 +20,9 @@ namespace IO {
 
 	bool rxRead();
 
-	void txEnable();
+	void txVCCEnable();
 
-	void txDisable();
+	void txVCCDisable();
 
 	void txWrite(bool value);
 

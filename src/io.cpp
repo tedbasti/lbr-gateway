@@ -40,11 +40,11 @@ namespace IO {
 		return readPin(RX_PORT, RX_DATA_PIN);
 	}
 
-	void txEnable() {
+	void txVCCEnable() {
 		setPin(TX_PORT, TX_ENABLE_PIN, 1);
 	}
 
-	void txDisable() {
+	void txVCCDisable() {
 		setPin(TX_PORT, TX_ENABLE_PIN, 0);
 	}
 
