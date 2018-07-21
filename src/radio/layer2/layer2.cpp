@@ -243,8 +243,8 @@ namespace LAYER2 {
 		pushBitToLayer1(1);
 		pushBitToLayer1(1);
 		//Just a zero to deactivate sending
-		//pushBitToLayer1(0);
-		pushByteToLayer1(0x00);
+		pushBitToLayer1(0);
+		//pushByteToLayer1(0x00);
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
