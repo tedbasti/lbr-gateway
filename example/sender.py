@@ -51,7 +51,7 @@ def main():
 	Send 4 zeros to verify that one appears
 	"""
 	print "sending termination byte"
-	ser.write("\x00\x00\x00")
+	ser.write("\x00")
 	ser.flush()
 	"""
 	Makes only sense with reliable transport
