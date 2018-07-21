@@ -6,6 +6,7 @@
 #include "../../util/configExtern.h"
 #include "../../usart/usart.h"
 #include "../../util/io.h"
+#include <util/delay.h>
 
 #define START_SEQUENCE 0xE3
 
