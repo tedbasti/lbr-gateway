@@ -9,8 +9,8 @@
 #define SRC_IOCONFIG_H_
 
 
-#define RX_PORT_OUT PORTD
-#define RX_ENABLE_PIN PD2
+#define RX_PORT PIND
+#define RX_DATA_PIN PD2
 
 #define TX_PORT PORTB
 #define TX_ENABLE_PIN PB4
