@@ -17,9 +17,9 @@ namespace LAYER1 {
 	static BitRingBuffer<RECEIVE_BUFFER_SIZE> ringBuf;
 
 	static volatile int8_t sendOffsetCounter = 0;
-	static volatile uint8_t sendOffset = 20;
 	static volatile int8_t receiveOffsetCounter = 0;
-	static volatile uint8_t receiveOffset = 10;
+	static volatile uint8_t receiveOffset = MAX_OFFSET_COUNTER/2;
+	static volatile uint8_t maxSynchronizeCounter = 2*MAX_OFFSET_COUNTER+5;
 
 	bool sendBit(bool bit) {
 		if(ringBuf.isFull()) {
@@ -78,14 +78,14 @@ namespace LAYER1 {
 			if((dataBit = DATA_IN) != currentBit) {
 				synchronizationActive = false;
 				if(receiveOffsetCounter == receiveOffset) {
-					receiveOffsetCounter = -20;
+					receiveOffsetCounter = -MAX_OFFSET_COUNTER;
 				}
 				else {
 					receiveOffsetCounter = 0;
 				}
 			}
 
-			if(synchronizeCounter >= 50) {
+			if(synchronizeCounter >= maxSynchronizeCounter) {
 				synchronizationActive = false;
 			}
 
