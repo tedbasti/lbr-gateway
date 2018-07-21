@@ -27,4 +27,8 @@ namespace IO {
 	bool rxRead(uint8_t port, uitn8_t pin) {
 		return readPin(RX_PORT, RX_DATA_PIN);
 	}
+
+	void txEnable() {
+		setPin(TX_PORT, TX_ENABLE_PIN, 1);
+	}
 }
