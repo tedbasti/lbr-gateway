@@ -47,7 +47,6 @@ def main():
 	print "sending data"
 	ser.write(sys.argv[2])
 	ser.flush();
-	time.sleep(1)
 	"""
 	Send 4 zeros to verify that one appears
 	"""
