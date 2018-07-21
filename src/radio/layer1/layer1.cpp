@@ -42,7 +42,8 @@ namespace LAYER1 {
 				IO::txVCCDisable();
 				return true;
 			}
-
+			IO::txVCCEnable();
+			_delay_us(1);
 			bool outBit = ringBuf.popBit();
 			IO::txWrite(outBit);
 			return true;
