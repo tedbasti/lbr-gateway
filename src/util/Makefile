@@ -1,4 +1,4 @@
-SHARED_OBJECTS := timer.o 
+SHARED_OBJECTS := timer.o io.o
 SHARED_LIB := util.a
 export WORKING_DIR ?= $(PWD)/../..
 

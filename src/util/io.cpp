@@ -6,24 +6,16 @@
  */
 
 
-#include <stdint>
+#include <stdint.h>
+#include <avr/io.h>
 #include "io.h"
 #include "ioconfig.h"
 
+#define SET_P(port, pin, val) (val) ? (port |= (1<<pin)) : (port &= ~(1<<pin))
+#define READ_P(port, pin) (port & (1 << pin))
+
 
 namespace IO {
-	void static setPin(uint8_t port, uint8_t pin, uint8_t value) {
-		if(value != 0) {
-			port |= (1 << pin);
-		}
-		else {
-			port &= ~(1 << pin);
-		}
-	}
-
-	bool static readPin(uint8_t port, uint8_t pin) {
-		return (PIND & (1 << pin));
-	}
 
 	void init() {
 		// Initialize RX data direction register.
@@ -37,26 +29,26 @@ namespace IO {
 	}
 
 	bool rxRead() {
-		return readPin(RX_PORT, RX_DATA_PIN);
+		return READ_P(RX_PIN, RX_DATA_PIN);
 	}
 
 	void txVCCEnable() {
-		setPin(TX_PORT, TX_ENABLE_PIN, 1);
+		SET_P(TX_PORT, TX_ENABLE_PIN, 1);
 	}
 
 	void txVCCDisable() {
-		setPin(TX_PORT, TX_ENABLE_PIN, 0);
+		SET_P(TX_PORT, TX_ENABLE_PIN, 0);
 	}
 
 	void txWrite(bool value) {
-		setPin(TX_PORT, TX_DATA_PIN, value);
+		SET_P(TX_PORT, TX_DATA_PIN, value);
 	}
 
 	void ledTXWrite(bool value) {
-		setPin(LED_PORT, LED_TX_PIN, value);
+		SET_P(LED_PORT, LED_TX_PIN, value);
 	}
 
 	void ledErrorWrite(bool value) {
-		setPin(LED_PORT, LED_ERROR_PIN, value);
+		SET_P(LED_PORT, LED_ERROR_PIN, value);
 	}
 }

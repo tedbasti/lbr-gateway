@@ -8,9 +8,11 @@
 #ifndef SRC_IOCONFIG_H_
 #define SRC_IOCONFIG_H_
 
+//#include <avr/io.h>
+
 
 #define RX_DDR DDRD
-#define RX_PORT PIND
+#define RX_PIN PIND
 #define RX_DATA_PIN PD2
 
 #define TX_DDR DDRB
@@ -22,6 +24,8 @@
 #define LED_PORT PORTD
 #define LED_TX_PIN PD4
 #define LED_ERROR_PIN PD7
+
+
 
 
 #endif /* SRC_IOCONFIG_H_ */

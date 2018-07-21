@@ -41,7 +41,8 @@ namespace MAIN {
 
 int main (void) {
 	/* Ports D7 as output */
-	DDRD |= (1<<PD7);
+	//DDRD |= (1<<PD7);
+	DDRB |= (1 << PB5);
 	USART::init(LAYER2::transmitData);
 
 	Timer::setupTimer16bit();

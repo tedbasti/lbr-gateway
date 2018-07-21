@@ -6,6 +6,7 @@
 #include "../../util/util.h"
 #include "../../util/configExtern.h"
 #include "../../usart/usart.h"
+#include "../../util/io.h"
 
 #define START_SEQUENCE 0xE3
 
@@ -43,7 +44,8 @@ namespace LAYER1 {
 			}
 
 			bool outBit = ringBuf.popBit();
-			SET_P(DATA_OUT_PORT, DATA_OUT_PIN, outBit);
+			//SET_P(DATA_OUT_PORT, DATA_OUT_PIN, outBit);
+			IO::txWrite(outBit);
 			return true;
 		} else {
 			return false;
@@ -60,7 +62,8 @@ namespace LAYER1 {
 				DEBUG_PRINT('R');
 				return;
 			}
-			dataBit = DATA_IN ? 1 : 0;
+			//dataBit = DATA_IN ? 1 : 0;
+//			dataBit = IO::rxRead();
 			MAIN::receiveBuffer.pushBit(dataBit);
 			currentBit = dataBit;
 			synchronizationActive=true;
