@@ -23,4 +23,8 @@ namespace IO {
 	bool static readPin(uint8_t port, uint8_t pin) {
 		return (PIND & (1 << pin));
 	}
+
+	bool rxRead(uint8_t port, uitn8_t pin) {
+		return readPin(RX_PORT, RX_DATA_PIN);
+	}
 }
