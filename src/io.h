@@ -19,7 +19,7 @@ namespace IO {
 
 	void init();
 
-	bool rxRead(uint8_t port, uint8_t pin);
+	bool rxRead();
 
 	void txEnable();
 

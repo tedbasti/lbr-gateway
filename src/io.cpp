@@ -49,7 +49,7 @@ namespace IO {
 		LED_DDR |= (1 << LED_TX_PIN) | (1 << LED_ERROR_PIN);
 	}
 
-	bool rxRead(uint8_t port, uitn8_t pin) {
+	bool rxRead() {
 		return readPin(RX_PORT, RX_DATA_PIN);
 	}
 
