@@ -35,4 +35,8 @@ namespace IO {
 	void txDisable() {
 		setPin(TX_PORT, TX_ENABLE_PIN, 0);
 	}
+
+	void txWrite(bool value) {
+		setPin(TX_PORT, TX_DATA_PIN, value);
+	}
 }

@@ -22,6 +22,8 @@ namespace IO {
 	void txEnable();
 
 	void txDisable();
+
+	void txWrite(bool value);
 }
 
 
