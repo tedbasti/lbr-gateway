@@ -24,6 +24,10 @@ namespace IO {
 	void txDisable();
 
 	void txWrite(bool value);
+
+	void ledTXWrite(bool value);
+
+	void ledErrorWrite(bool value);
 }
 
 

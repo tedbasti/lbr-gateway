@@ -39,4 +39,12 @@ namespace IO {
 	void txWrite(bool value) {
 		setPin(TX_PORT, TX_DATA_PIN, value);
 	}
+
+	void ledTXWrite(bool value) {
+		setPin(LED_PORT, LED_TX_PIN, value);
+	}
+
+	void ledErrorWrite(bool value) {
+		setPin(LED_PORT, LED_ERROR_PIN, value);
+	}
 }
