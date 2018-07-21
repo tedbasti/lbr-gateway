@@ -11,7 +11,7 @@
 #include <avr/io.h>
 #include <stdint.h>
 
-#define MAX_OFFSET_COUNTER 20
+#define MAX_OFFSET_COUNTER 40
 
 namespace LAYER1 {
 
