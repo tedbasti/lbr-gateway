@@ -16,6 +16,8 @@ namespace IO {
 	void static setPin(uint8_t port, uint8_t pin, uint8_t value);
 
 	void rxEnable();
+
+	void rxDisable();
 }
 
 

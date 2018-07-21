@@ -23,4 +23,8 @@ namespace IO {
 	void rxEnable() {
 		setPin(RX_PORT, RX_ENABLE_PIN, 1);
 	}
+
+	void rxDisable() {
+		setPin(RX_PORT, RX_ENABLE_PIN, 0);
+	}
 }
