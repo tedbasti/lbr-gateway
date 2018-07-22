@@ -23,6 +23,7 @@ namespace LAYER1 {
 
 	bool sendBit(bool bit) {
 		if(ringBuf.isFull()) {
+			USART::transmitChar('v');
 			DEBUG_PRINT('S');
 			return false;
 		}
@@ -60,6 +61,7 @@ namespace LAYER1 {
 		++receiveOffsetCounter;
 		if (receiveOffsetCounter == receiveOffset) {
 			if(MAIN::receiveBuffer.isFull()) {
+				USART::transmitChar('R');
 				DEBUG_PRINT('R');
 				return;
 			}

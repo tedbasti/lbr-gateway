@@ -268,6 +268,10 @@ namespace LAYER2 {
 	}
 
 	bool sendBufferEnoughSpace() {
+		bool x = (LAYER1::getTXBufferSpace() > MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE);
+		if (!x) {
+			USART::transmitChar('f');
+		}
 		return (LAYER1::getTXBufferSpace() > MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE);
 	}
 }

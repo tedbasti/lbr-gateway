@@ -66,15 +66,13 @@ int main (void) {
 				uint8_t text[] = "This is a new way of testing because we are using a very long string with many different letters!\n";
 				while(1) {
 					for(uint8_t i=0; i<(sizeof(text)-1); i++) {
-						USART::transmitChar('\n');
-						USART::transmitChar(text[i]);
-						USART::transmitChar(':');
 						if(LAYER2::sendBufferEnoughSpace()) {
+							USART::transmitChar('\n');
+							USART::transmitChar(text[i]);
+							USART::transmitChar(':');
 							LAYER2::transmitData(CONFIG::receiverId, text+i, 1);
-						} else {
-							USART::transmitChar('F');
 						}
-						_delay_ms(120);
+						_delay_ms(300);
 					}
 
 				}
