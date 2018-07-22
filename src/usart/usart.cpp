@@ -1,24 +1,17 @@
-
 #include "usart.h"
 #include "../util/config.h"
-#include "../radio/dataset.h"
 #include "../radio/databuffer.h"
 #include "../util/configExtern.h"
 #include "../radio/layer3/layer3.h"
 #include "../radio/layer2/layer2.h"
 
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
-#include <string.h>
 
 
 #define FOSC 16000000				// System clock Speed
 #define BAUD 1200					// Baud rate
 #define UBRR int(FOSC/16/BAUD-0.5)
-
-
-static USART::callbackFunc _cbFunc;
 
 namespace MAIN {
 	typedef bool (*callbackFunc)(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
@@ -63,9 +56,6 @@ namespace LAYER2 {
 #define LAYER3_CODE 3
 #define STATE_INITIAL_SIZE 5
 #define STATE_DIRECT_CONNECTION 1
-#define STATE_DIRECT_CONNECTION_SIZE 5
-#define STATE_MULTI_CONNECTION 2
-#define STATE_MULTI_CONNECTION_SIZE 5
 
 /*
  * Initialize "protocol": (size 5)
@@ -76,7 +66,8 @@ namespace LAYER2 {
  * [Layer2/Layer3]: Layer3 is layer2 with acknowledgement
  * 					packages
  * [LengthOfPayload]: between 1 and 5 bytes will be for data
- * [Protocol] DirectConnection of Multi/Connection
+ * [Protocol] DirectConnection of Multi/Connection.
+ * At the moment not used and only there for future reasons!
  */
 
 ISR(USART_RX_vect) {
@@ -90,7 +81,6 @@ ISR(USART_RX_vect) {
 	 */
 	static uint8_t buffer[6];
 	static uint8_t bufferPos = 0;
-	static uint8_t protocolType;
 	static uint8_t state = STATE_INITIAL;
 
 	buffer[bufferPos++] = data;
@@ -103,16 +93,10 @@ ISR(USART_RX_vect) {
 			CONFIG::receiverId = buffer[1];
 			CONFIG::layerConfig = buffer[2];
 			CONFIG::payloadLen = buffer[3];
-			protocolType = buffer[4];
 			if ((CONFIG::layerConfig == LAYER2_CODE || CONFIG::layerConfig == LAYER3_CODE) &&
 					CONFIG::payloadLen > 0 && CONFIG::payloadLen < 5) {
-				//TODO: More generic?
+				//At the moment fix at STATE_DIRECT_CONNECTION
 				state = STATE_DIRECT_CONNECTION;
-				/*
-				 * TODO: Maybe some error message over usart,
-				 * because otherwise the user doesnt know what
-				 * went wrong.
-				 */
 				if (CONFIG::layerConfig == LAYER3_CODE) {
 					MAIN::onHandlingNeeded = LAYER3::onHandlingNeeded;
 					MAIN::sendData = LAYER3::sendData;
@@ -135,7 +119,7 @@ ISR(USART_RX_vect) {
 
 namespace USART {
 
-	void init(callbackFunc function) {
+	void init() {
 		// Set baud rate
 		UBRR0H = (unsigned char) (UBRR >> 8);
 		UBRR0L = (unsigned char) UBRR;
@@ -145,8 +129,6 @@ namespace USART {
 
 		// Set frame format: 8data, 2stop bit
 		UCSR0C = (1 << USBS0) | (3 << UCSZ00);
-
-		_cbFunc = function;
 	}
 
 	void transmitChar(unsigned char data) {
