@@ -242,15 +242,20 @@ namespace LAYER2 {
 		//Send the transmitter
 		pushByteToLayer1_Encoded(CONFIG::senderId);
 		//Send the data
+		USART::transmitChar('0');
 		for(uint8_t i=0; i<len; i++) {
 			pushByteToLayer1_Encoded(data[i]);
 		}
+		USART::transmitChar('1');
 		pushByteToLayer1_Encoded(ckSum.getDigest());
 		//Send end sequence
 		pushBitToLayer1(1);
+		USART::transmitChar('2');
 		pushBitToLayer1(1);
+		USART::transmitChar('3');
 		//Just a zero to deactivate sending
 		pushBitToLayer1(0);
+		USART::transmitChar('4');
 		//pushByteToLayer1(0x00);
 	}
 
@@ -265,6 +270,10 @@ namespace LAYER2 {
 	}
 
 	bool sendBufferEnoughSpace() {
+		bool x = (LAYER1::getTXBufferSpace() > MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE);
+		if (!x) {
+			USART::transmitChar('f');
+		}
 		return (LAYER1::getTXBufferSpace() > MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE);
 	}
 }

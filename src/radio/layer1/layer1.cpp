@@ -41,6 +41,9 @@ namespace LAYER1 {
 			sendOffsetCounter = 0;
 			if (ringBuf.isEmpty()) {
 				IO::txVCCDisable();
+				if (CONFIG::senderId == 0) {
+					USART::transmitChar('e');
+				}
 				return true;
 			}
 			bool outBit = ringBuf.popBit();

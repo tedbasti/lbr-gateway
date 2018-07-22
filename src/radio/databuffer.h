@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <assert.h>
+#include "../usart/usart.h"
 
 
 typedef uint16_t Buffersize;
@@ -51,6 +52,7 @@ public:
 
 	bool pushBack(DataSet &dataset) {
 		if(isFull()) {
+			USART::transmitChar('D');
 			return false;
 		}
 		dataSetArray[writeIndex] = dataset;

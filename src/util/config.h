@@ -10,10 +10,10 @@
 #include <stdint.h>
 
 namespace CONFIG {
-	uint8_t volatile senderId;
-	uint8_t volatile receiverId;
-	uint8_t volatile layerConfig;
-	uint8_t volatile payloadLen;
+	uint8_t volatile senderId=0;
+	uint8_t volatile receiverId=0;
+	uint8_t volatile layerConfig=0;
+	uint8_t volatile payloadLen=0;
 
 }
 

@@ -11,7 +11,7 @@ receiverId = "\x01"
 def openSerial(port):
 	#Some configuration for the serial port
 	ser = serial.Serial()
-	ser.baudrate = 300
+	ser.baudrate = 57600
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
@@ -59,7 +59,12 @@ def main():
 	for x in sys.argv[3]:
 		ser.write(x)
 		ser.flush()
-		time.sleep(1)
+		time.sleep(0.5)
+		sys.stdout.write(x)
+		sys.stdout.write(":")
+		sys.stdout.write(ser.read(ser.inWaiting()))
+		sys.stdout.write("\n")
+		sys.stdout.flush()
 
 	print "sending termination byte"
 	ser.write("\x00")

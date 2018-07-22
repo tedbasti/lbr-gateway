@@ -20,9 +20,13 @@ ISR (TIMER0_OVF_vect) {
 
 // timer1 (16bit) compare match interrupt
 ISR (TIMER1_COMPA_vect) {
-	LAYER1::onTimeReceive();
-	if (LAYER1::onTimeTransmit()) {
-		LAYER3::onTime();
+	LAYER1::onTimeTransmit();
+	//Only do the receive stuff for everytime
+	if (CONFIG::senderId == 1) {
+		LAYER1::onTimeReceive();
+		if (LAYER1::onTimeTransmit()) {
+			LAYER3::onTime();
+		}
 	}
 }
 
@@ -57,13 +61,30 @@ int main (void) {
 	sei();
 
 	while(1) {
-		//Receive from the receiveBuffer and put it on layer2
-		if(MAIN::receiveBuffer.isEmpty() == false) {
-			bool bitValue = MAIN::receiveBuffer.popBit();
-			LAYER2::receiveBit(bitValue);
-		}
-		if (MAIN::onHandlingNeeded(MAIN::transmitBuffer)) {
-			MAIN::sendData(MAIN::transmitBuffer);
+		if (CONFIG::payloadLen > 0) {
+			if (CONFIG::receiverId==1) {
+				uint8_t text[] = "This is a new way of testing\n";
+				while(1) {
+					for(uint8_t i=0; i<(sizeof(text)-1); i++) {
+						USART::transmitChar('\n');
+						USART::transmitChar(text[i]);
+						USART::transmitChar(':');
+						LAYER2::transmitData(CONFIG::receiverId, text+i, 1);
+						_delay_ms(500);
+					}
+				}
+			} else {
+				while (1) {
+					//Receive from the receiveBuffer and put it on layer2
+					if(MAIN::receiveBuffer.isEmpty() == false) {
+						bool bitValue = MAIN::receiveBuffer.popBit();
+						LAYER2::receiveBit(bitValue);
+					}
+					if (MAIN::onHandlingNeeded(MAIN::transmitBuffer)) {
+						MAIN::sendData(MAIN::transmitBuffer);
+					}
+				}
+			}
 		}
 	}
 }
