@@ -14,7 +14,7 @@
 
 
 #define FOSC 16000000				// System clock Speed
-#define BAUD 9600					// Baud rate
+#define BAUD 1200					// Baud rate
 #define UBRR int(FOSC/16/BAUD-0.5)
 
 

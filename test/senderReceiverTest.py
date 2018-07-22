@@ -15,7 +15,7 @@ receiverId = "\x01"
 def openSerial(port):
 	#Some configuration for the serial port
 	ser = serial.Serial()
-	ser.baudrate = 9600
+	ser.baudrate = 1200
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
