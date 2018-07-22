@@ -233,9 +233,8 @@ namespace LAYER2 {
 		IO::txVCCEnable();
 		_delay_us(1);
 
-		// Send two bits for synchronisazion
-		pushBitToLayer1(1);
-		pushBitToLayer1(0);
+		// Send 16 bits with manchester for synchronisazion!
+		pushByteToLayer1_Encoded(0);
 
 		pushByteToLayer1(startSeq);
 		//Send the Receiver
