@@ -17,8 +17,8 @@ namespace MAIN {
 namespace LAYER1 {
 	static BitRingBuffer<RECEIVE_BUFFER_SIZE> ringBuf;
 
-	static volatile int8_t sendOffsetCounter = 0;
-	static volatile int8_t receiveOffsetCounter = 0;
+	static volatile uint8_t sendOffsetCounter = 0;
+	static volatile uint8_t receiveOffsetCounter = 0;
 	static volatile uint8_t receiveOffset = MAX_OFFSET_COUNTER/2;
 
 	bool sendBit(bool bit) {
@@ -43,8 +43,6 @@ namespace LAYER1 {
 				IO::txVCCDisable();
 				return true;
 			}
-			IO::txVCCEnable();
-			_delay_us(1);
 			bool outBit = ringBuf.popBit();
 			IO::txWrite(outBit);
 			return true;
@@ -55,7 +53,6 @@ namespace LAYER1 {
 
 	void onTimeReceive() {
 		static bool synchronizationActive=false;
-		static bool currentBit;
 		static bool dataBit;
 		++receiveOffsetCounter;
 		if (receiveOffsetCounter == receiveOffset) {
@@ -65,19 +62,18 @@ namespace LAYER1 {
 			}
 			dataBit = IO::rxRead();
 			MAIN::receiveBuffer.pushBit(dataBit);
-			currentBit = dataBit;
 			synchronizationActive=true;
+			/**
+			 * Is ok, because receiveOffset
+			 * is always MAX_OFFSET_COUNTER/2!
+			 */
+			return;
 		}
 
 		if (synchronizationActive) {
-			if((dataBit = IO::rxRead()) != currentBit) {
+			if(IO::rxRead() != dataBit) {
 				synchronizationActive = false;
-				if(receiveOffsetCounter == receiveOffset) {
-					receiveOffsetCounter = -MAX_OFFSET_COUNTER;
-				}
-				else {
-					receiveOffsetCounter = 0;
-				}
+				receiveOffsetCounter = 0;
 			}
 		}
 
