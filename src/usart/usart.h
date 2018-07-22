@@ -34,20 +34,12 @@
  * transmitting and receiving via USART will be enabled.
  */
 namespace USART {
-
-	typedef void (*callbackFunc)(uint8_t receiver,
-			uint8_t* data, uint8_t len);
-
 	/*
 	 * Sets the USART baud rate, enables transmitting and receiving via
-	 * USART and initialized the callback function pointer. The callback
-	 * function will be called when an 8 bit character has been received.
+	 * USART.
 	 *
-	 * PARAMETERS
-	 *
-	 * 	callbackFunc: void (*function) (unsigned char)
 	 */
-	void init(callbackFunc = nullptr);
+	void init();
 
 	/*
 	 * Transmits data via USART.

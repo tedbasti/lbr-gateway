@@ -53,9 +53,7 @@ public:
 		if(isFull()) {
 			return false;
 		}
-		DataSet datasetDest;
-		memcpy(&datasetDest, &dataset, sizeof dataset);
-		dataSetArray[writeIndex] = datasetDest;
+		dataSetArray[writeIndex] = dataset;
 		writeIndex = (writeIndex + 1)%Size;
 		space -= 1;
 		return true;

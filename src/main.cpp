@@ -51,7 +51,7 @@ int main (void) {
 	Timer::setupTimer16bit();
 
 	// Initializing USART.
-	USART::init(LAYER2::transmitData);
+	USART::init();
 
 	// Enable interrupts globally.
 	sei();
