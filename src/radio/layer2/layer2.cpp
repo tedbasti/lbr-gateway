@@ -137,14 +137,16 @@ namespace LAYER2 {
 						checkSum.addByte(f.sender);
 						checkSum.addByte(f.payloadLen);
 						checkSum.addBytes(f.payload, f.payloadLen);
-#ifdef DEBUG_ENABLE
+//#ifdef DEBUG_ENABLE
 						if (checkSum.getDigest() == checksumReceived) {
 							DEBUG_PRINT('3');
+							USART::transmitChar('2');
 						}
 						if (f.receiver == CONFIG::senderId) {
 							DEBUG_PRINT('4');
+							USART::transmitChar('3');
 						}
-#endif
+//#endif
 
 						/*
 						 * f.receiver == CONFIG::senderId may look strange,
@@ -166,6 +168,7 @@ namespace LAYER2 {
 		 * just start from the beginning.
 		 */
 		if (seq==startSeq) {
+			USART::transmitChar('1');
 			DEBUG_PRINT('0');
 			buffer.clear();
 			byte=0;
@@ -229,7 +232,7 @@ namespace LAYER2 {
 		ckSum.addByte(len);
 		ckSum.addBytes((const unsigned char*) data, len);
 
-		USART::transmitChar('0');
+		USART::transmitChar('1');
 		// Enable TX radio module VCC and wait one us
 		IO::txVCCEnable();
 		_delay_us(1);
@@ -245,7 +248,7 @@ namespace LAYER2 {
 		//Send the data
 		for(uint8_t i=0; i<len; i++) {
 			pushByteToLayer1_Encoded(data[i]);
-			USART::transmitChar(data[i]);
+//			USART::transmitChar(data[i]);
 		}
 		pushByteToLayer1_Encoded(ckSum.getDigest());
 		//Send end sequence
