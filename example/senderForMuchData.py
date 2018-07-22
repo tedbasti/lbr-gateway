@@ -11,7 +11,7 @@ receiverId = "\x01"
 def openSerial(port):
 	#Some configuration for the serial port
 	ser = serial.Serial()
-	ser.baudrate = 9600
+	ser.baudrate = 1200
 	ser.port = port
 	ser.bytesize = 8
 	ser.stopbits = 2
@@ -47,7 +47,7 @@ def main():
 		sys.exit(1)
 
 
-	pLen = "\x01" 
+	pLen = "\x01"
 	if (len(sys.argv) >= 5):
 		pLen = hex(int(sys.argv[4]))
 
@@ -60,7 +60,7 @@ def main():
 		ser.write(x)
 		ser.flush()
 		time.sleep(1)
-		
+
 	print "sending termination byte"
 	ser.write("\x00")
 	ser.flush()
