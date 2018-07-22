@@ -10,7 +10,7 @@
 
 
 #define FOSC 16000000				// System clock Speed
-#define BAUD 600					// Baud rate
+#define BAUD 300					// Baud rate
 #define UBRR int(FOSC/16/BAUD-0.5)
 
 namespace MAIN {
