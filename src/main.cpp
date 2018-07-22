@@ -63,15 +63,17 @@ int main (void) {
 	while(1) {
 		if (CONFIG::payloadLen > 0) {
 			if (CONFIG::receiverId==1) {
-				uint8_t text[] = "This is a new way of testing\n";
+				uint8_t text[] = "This is a new way of testing because we are using a very long string with many different letters!\n";
 				while(1) {
 					for(uint8_t i=0; i<(sizeof(text)-1); i++) {
-						USART::transmitChar('\n');
-						USART::transmitChar(text[i]);
-						USART::transmitChar(':');
-						LAYER2::transmitData(CONFIG::receiverId, text+i, 1);
-						_delay_ms(500);
+						if(LAYER2::sendBufferEnoughSpace()) {
+							USART::transmitChar('\n');
+							USART::transmitChar(text[i]);
+							USART::transmitChar(':');
+							LAYER2::transmitData(CONFIG::receiverId, text+i, 1);
+						}
 					}
+					_delay_ms(2800);
 				}
 			} else {
 				while (1) {
