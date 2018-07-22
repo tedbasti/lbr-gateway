@@ -11,14 +11,9 @@
 #include <avr/io.h>
 #include <stdint.h>
 
-#define MAX_OFFSET_COUNTER 40
+#define MAX_OFFSET_COUNTER 10
 
 namespace LAYER1 {
-
-/* Port and pin connected to transmitter module DATA */
-#define DATA_OUT_PORT PORTB
-#define DATA_OUT_PIN PB5
-#define DATA_IN (PIND & (1<<PD2))
 
 void init();
 
