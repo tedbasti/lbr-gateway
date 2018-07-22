@@ -61,9 +61,9 @@ public:
 
 	DataSet popFront() {
 		assert(!isEmpty());
-		space += 1;
 		DataSet dataset = dataSetArray[readIndex];
 		readIndex = (readIndex + 1)%Size;
+		space += 1;
 		return dataset;
 	}
 
