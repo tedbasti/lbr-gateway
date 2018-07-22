@@ -23,7 +23,7 @@ namespace LAYER1 {
 
 	bool sendBit(bool bit) {
 		if(ringBuf.isFull()) {
-			USART::transmitChar('v');
+			USART::transmitChar('V');
 			DEBUG_PRINT('S');
 			return false;
 		}
