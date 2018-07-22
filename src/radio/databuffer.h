@@ -53,9 +53,9 @@ public:
 		if(isFull()) {
 			return false;
 		}
-		space -= 1;
 		dataSetArray[writeIndex] = dataset;
 		writeIndex = (writeIndex + 1)%Size;
+		space -= 1;
 		return true;
 	}
 

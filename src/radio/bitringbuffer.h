@@ -36,7 +36,6 @@ public:
 	void pushBit(bool bit) {
 		assert(!isFull());
 		
-		--space;
 		uint8_t mask;
 		uint8_t &byte = resolveBit(writeIdx, mask);
 		
@@ -47,6 +46,7 @@ public:
 		}
 		
 		writeIdx = (writeIdx + 1) % Size;
+		--space;
 	}
 	
 	/* Dequeues a bit */
