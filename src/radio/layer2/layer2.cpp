@@ -229,6 +229,7 @@ namespace LAYER2 {
 		ckSum.addByte(len);
 		ckSum.addBytes((const unsigned char*) data, len);
 
+		USART::transmitChar('0');
 		// Enable TX radio module VCC and wait one us
 		IO::txVCCEnable();
 		_delay_us(1);
@@ -242,20 +243,17 @@ namespace LAYER2 {
 		//Send the transmitter
 		pushByteToLayer1_Encoded(CONFIG::senderId);
 		//Send the data
-		USART::transmitChar('0');
 		for(uint8_t i=0; i<len; i++) {
 			pushByteToLayer1_Encoded(data[i]);
+			USART::transmitChar(data[i]);
 		}
-		USART::transmitChar('1');
 		pushByteToLayer1_Encoded(ckSum.getDigest());
 		//Send end sequence
 		pushBitToLayer1(1);
-		USART::transmitChar('2');
 		pushBitToLayer1(1);
-		USART::transmitChar('3');
 		//Just a zero to deactivate sending
 		pushBitToLayer1(0);
-		USART::transmitChar('4');
+		USART::transmitChar('2');
 		//pushByteToLayer1(0x00);
 	}
 
