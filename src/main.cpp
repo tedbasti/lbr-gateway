@@ -41,10 +41,19 @@ namespace MAIN {
 }
 
 int main (void) {
+	// Disable interrupts globally.
+	cli();
+
+	// Initializing I/O setup.
 	IO::init();
+
+	// Initializing 16bit timer/counter.
+	Timer::setupTimer16bit();
+
+	// Initializing USART.
 	USART::init(LAYER2::transmitData);
 
-	Timer::setupTimer16bit();
+	// Enable interrupts globally.
 	sei();
 
 	while(1) {

@@ -147,8 +147,6 @@ namespace USART {
 		UCSR0C = (1 << USBS0) | (3 << UCSZ00);
 
 		_cbFunc = function;
-
-		sei();
 	}
 
 	void transmitChar(unsigned char data) {
