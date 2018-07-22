@@ -55,11 +55,12 @@ public:
 		
 		uint8_t mask;
 		uint8_t &byte = resolveBit(readIdx, mask);
+		bool result = byte & mask;
 		
 		readIdx = (readIdx + 1) % Size;
 		++space;
 		
-		return byte & mask;
+		return result;
 	}
 	
 private:
