@@ -70,7 +70,7 @@ namespace LAYER1 {
 		}
 
 		if (synchronizationActive) {
-			if((dataBit = DATA_IN) != currentBit) {
+			if((dataBit = IO::rxRead()) != currentBit) {
 				synchronizationActive = false;
 				if(receiveOffsetCounter == receiveOffset) {
 					receiveOffsetCounter = -MAX_OFFSET_COUNTER;
