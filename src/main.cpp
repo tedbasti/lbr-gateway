@@ -59,7 +59,9 @@ int main (void) {
 	while(1) {
 		//Receive from the receiveBuffer and put it on layer2
 		if(MAIN::receiveBuffer.isEmpty() == false) {
+			cli();
 			bool bitValue = MAIN::receiveBuffer.popBit();
+			sei();
 			LAYER2::receiveBit(bitValue);
 		}
 		if (MAIN::onHandlingNeeded(MAIN::transmitBuffer)) {

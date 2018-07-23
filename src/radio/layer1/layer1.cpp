@@ -7,6 +7,7 @@
 #include "../../usart/usart.h"
 #include "../../util/io.h"
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
 #define START_SEQUENCE 0xE3
 
@@ -26,7 +27,9 @@ namespace LAYER1 {
 			DEBUG_PRINT('S');
 			return false;
 		}
+		cli();
 		ringBuf.pushBit(bit);
+		sei();
 		return true;
 	}
 
