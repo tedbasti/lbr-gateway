@@ -6,6 +6,8 @@ import sys
 
 senderId = "\x00"
 receiverId = "\x01"
+timeSleepLayer2 = 0.1
+timeSleepLayer3 = 1
 
 #openSerial just opens the serial connection
 def openSerial(port):
@@ -59,13 +61,13 @@ def main():
 	for x in sys.argv[3]:
 		ser.write(x)
 		ser.flush()
-		time.sleep(1)
+		time.sleep(0.3)
 
 	print "sending termination byte"
 	ser.write("\x00")
 	ser.flush()
 	while True:
-		char = ser.read(1)
+		char = ser.read(timeSleepLayer2)
 		sys.stdout.write(char)
 		sys.stdout.flush()
 
