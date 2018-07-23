@@ -51,17 +51,15 @@ def main():
 		sys.stdout.flush()
 
 	print ""
-	ser.close()
-"""
-	time.sleep(5)
-	ser.write('ABCDEFG')
+
+	ser.write("ABCDEFG")
 	ser.flush()
 
 	while (char != "\x00"):
 		char = ser.read(1)
 		sys.stdout.write(char)
 		sys.stdout.flush()
-"""
+	ser.close()
 
 if __name__ == '__main__':
     main()

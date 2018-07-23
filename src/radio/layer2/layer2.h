@@ -14,6 +14,8 @@
 #ifndef SRC_RADIO_LAYER2_LAYER2_H_
 #define SRC_RADIO_LAYER2_LAYER2_H_
 
+#define PAUSE_AFTER_RECEIVE_PACKAGE 100
+
 #define MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE 256
 #include <stdint.h>
 #include "../databuffer.h"
@@ -54,6 +56,8 @@ namespace LAYER2 {
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer);
 
 	bool sendBufferEnoughSpace();
+
+	void onTime();
 }
 
 

@@ -17,6 +17,7 @@ namespace LAYER2 {
 	const uint8_t endSeq = 0xFE; // 11111110
 	static uint8_t byte = 0;
 	static uint8_t bitsReceived = 0;
+	static volatile bool sendPause = false;
 	/*
 	 * Within the ByteBuffer a Frame is stored.
 	 * Not so much bytes are needed. 10 should work.
@@ -137,10 +138,17 @@ namespace LAYER2 {
 						checkSum.addByte(f.sender);
 						checkSum.addByte(f.payloadLen);
 						checkSum.addBytes(f.payload, f.payloadLen);
-#ifdef DEBUG_ENABLE
+
 						if (checkSum.getDigest() == checksumReceived) {
 							DEBUG_PRINT('3');
+							/*
+							 * When receiving valid package
+							 * there is a little send pause,
+							 * to not make problems within the air
+							 */
+							sendPause = true;
 						}
+#ifdef DEBUG_ENABLE
 						if (f.receiver == CONFIG::senderId) {
 							DEBUG_PRINT('4');
 						}
@@ -255,7 +263,7 @@ namespace LAYER2 {
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
-		return (sendBufferEnoughSpace()) && (!transmitBuffer.isEmpty());
+		return (sendBufferEnoughSpace()) && (!transmitBuffer.isEmpty() && !sendPause);
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitBuffer) {
@@ -267,4 +275,16 @@ namespace LAYER2 {
 	bool sendBufferEnoughSpace() {
 		return (LAYER1::getTXBufferSpace() > MAX_BUFFER_SPACE_NEEDED_FOR_PACKAGE);
 	}
+
+void onTime() {
+	static uint8_t layer2PauseCounter=0;
+	if(sendPause) {
+		++layer2PauseCounter;
+		if(layer2PauseCounter == PAUSE_AFTER_RECEIVE_PACKAGE) {
+			layer2PauseCounter = 0;
+			sendPause = false;
+		}
+	}
+}
+
 }

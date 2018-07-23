@@ -22,6 +22,7 @@ ISR (TIMER0_OVF_vect) {
 ISR (TIMER1_COMPA_vect) {
 	LAYER1::onTimeReceive();
 	if (LAYER1::onTimeTransmit()) {
+		LAYER2::onTime();
 		LAYER3::onTime();
 	}
 }
