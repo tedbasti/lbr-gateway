@@ -17,6 +17,10 @@ namespace LAYER3 {
 	volatile static uint16_t timerCounter = 0;
 	static uint8_t packetNumber = 0;
 	static bool firstPacketReceived = false;
+	/*
+	 * when this is above 0, its ready to be send!
+	 */
+	static volatile uint8_t ackPackage=0;
 
 	void onTime() {
 		if(timerActivated) {
@@ -29,22 +33,30 @@ namespace LAYER3 {
 	}
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
-		return (LAYER2::onHandlingNeeded(transmitbuffer) && (timerActivated == false));
+		return ((LAYER2::onHandlingNeeded(transmitbuffer) && (timerActivated == false)) ||
+				(LAYER2::sendBufferEnoughSpace() && ackPackage>0));
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
-		// Create packet
-		uint8_t packet[MAX_PAYLOAD_LEN + 1];
-		const uint8_t HEADER = (packetNumber << 4) | ((uint8_t) PACKET_CODE_DATA);
-		const DataSet * PAYLOAD = transmitbuffer.peekFront();
-		packet[0] = HEADER;
-		memcpy(&packet[1], PAYLOAD, CONFIG::payloadLen);
+		// When an ackPackage waits to be sent, its the first package!
+		if (ackPackage>0) {
+			uint8_t payload=ackPackage;
+			ackPackage=0;
+			LAYER2::transmitData(CONFIG::receiverId, &payload, 1);
+		} else {
+			uint8_t packet[MAX_PAYLOAD_LEN + 1];
+			const uint8_t HEADER = (packetNumber << 4) | ((uint8_t) PACKET_CODE_DATA);
+			const DataSet * PAYLOAD = transmitbuffer.peekFront();
+			packet[0] = HEADER;
+			memcpy(&packet[1], PAYLOAD, CONFIG::payloadLen);
 
-		// Transmit packet
-		LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen + 1);
+			// Transmit packet
+			LAYER2::transmitData(CONFIG::receiverId, packet, CONFIG::payloadLen + 1);
 
-		// Activate timer
-		timerActivated = true;
+			// Activate timer
+			timerActivated = true;
+		}
+		return true;
 	}
 
 	void receiveData(const uint8_t *data, uint8_t len) {
@@ -55,13 +67,8 @@ namespace LAYER3 {
 		switch(PACKET_CODE) {
 			case PACKET_CODE_DATA:
 				DEBUG_PRINT('D');
-				// Create and send ACK
-				uint8_t packet[1];
-				packet[0] = (PACKET_NUMBER << 4) | ((uint8_t) PACKET_CODE_ACK);
-				_delay_ms(DELAY_ACK_PACKET_MS);
-				if(LAYER2::sendBufferEnoughSpace()) {
-					LAYER2::transmitData(CONFIG::receiverId, packet, 1);
-				}
+				//Store ackPackage for sendData
+				ackPackage = (PACKET_NUMBER << 4) | ((uint8_t) PACKET_CODE_ACK);
 
 				// If this is the first data packet which the slave is receiving.
 				if(firstPacketReceived == false) {

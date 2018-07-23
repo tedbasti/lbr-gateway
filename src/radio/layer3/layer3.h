@@ -14,8 +14,6 @@
 #define TIMEOUT (uint16_t) 800
 #define TIMEOUT_MAX_RESEND 3
 
-#define DELAY_ACK_PACKET_MS 200
-
 #include <stdint.h>
 #include "../databuffer.h"
 #include "../../util/configExtern.h"
