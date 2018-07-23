@@ -41,7 +41,7 @@ def main():
 	delaySend=0
 	if (sys.argv[2] == "3"):
 		layerVersion = "\x03"
-		delaySend=1
+		delaySend=0.5
 		print "Layer version 3!"
 	elif (sys.argv[2] == "2"):
 		layerVersion = "\x02"
