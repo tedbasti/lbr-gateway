@@ -38,16 +38,18 @@ def main():
 		sys.exit(1)
 
 	layerVersion = "\x02"
+	delaySend=0
 	if (sys.argv[2] == "3"):
 		layerVersion = "\x03"
+		delaySend=1
 		print "Layer version 3!"
 	elif (sys.argv[2] == "2"):
 		layerVersion = "\x02"
+		delaySend=0.3
 		print "Layer version 2!"
 	else:
 		print "invalid layer version!"
 		sys.exit(1)
-
 
 	pLen = "\x01"
 	if (len(sys.argv) >= 5):
@@ -61,13 +63,13 @@ def main():
 	for x in sys.argv[3]:
 		ser.write(x)
 		ser.flush()
-		time.sleep(0.3)
+		time.sleep(delaySend)
 
 	print "sending termination byte"
 	ser.write("\x00")
 	ser.flush()
 	while True:
-		char = ser.read(timeSleepLayer2)
+		char = ser.read(1)
 		sys.stdout.write(char)
 		sys.stdout.flush()
 
