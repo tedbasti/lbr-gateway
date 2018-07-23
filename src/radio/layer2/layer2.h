@@ -58,6 +58,8 @@ namespace LAYER2 {
 	bool sendBufferEnoughSpace();
 
 	void onTime();
+
+	bool isInPause();
 }
 
 

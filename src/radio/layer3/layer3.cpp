@@ -34,7 +34,7 @@ namespace LAYER3 {
 
 	bool onHandlingNeeded(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {
 		return ((LAYER2::onHandlingNeeded(transmitbuffer) && (timerActivated == false)) ||
-				(LAYER2::sendBufferEnoughSpace() && ackPackage>0));
+				(LAYER2::sendBufferEnoughSpace() && ackPackage>0 && !LAYER2::isInPause()));
 	}
 
 	bool sendData(DataBuffer<TRANSMIT_BUFFER_SIZE> &transmitbuffer) {

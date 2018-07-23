@@ -287,4 +287,8 @@ void onTime() {
 	}
 }
 
+	bool isInPause() {
+		return sendPause;
+	}
+
 }
