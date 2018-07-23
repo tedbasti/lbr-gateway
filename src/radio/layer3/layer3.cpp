@@ -92,6 +92,8 @@ namespace LAYER3 {
 					packetNumber = (packetNumber + 1)%2;
 					if(!MAIN::transmitBuffer.isEmpty()) {
 						MAIN::transmitBuffer.popFront();
+						timerActivated=false;
+						timerCounter=0;
 					}
 				}
 				break;
