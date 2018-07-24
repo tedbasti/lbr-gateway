@@ -52,9 +52,6 @@ def main():
 
 	print ""
 
-	ser.write("ABCDEFG")
-	ser.flush()
-
 	while (char != "\x00"):
 		char = ser.read(1)
 		sys.stdout.write(char)
